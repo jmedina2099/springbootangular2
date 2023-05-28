@@ -1,0 +1,79 @@
+<button [className]="'btn0'" (click)="openModalCreate()">Agrega usuario</button>
+
+<div class="contentListado">
+    <div class="rowListado" *ngFor="let usuario of usuarios; let i = index">
+            <div [className]="'span1'" [ngStyle]="{'border-top': i==0? '1px solid black': ''}" >
+                {{usuario.username}}
+            </div>
+            <div [className]="'span2'" [ngStyle]="{'border-top': i==0? '1px solid black': ''}" >
+                {{usuario.firstName}} {{usuario.middleName}} {{usuario.lastName}}
+            </div>
+            <div [className]="'span3'" [ngStyle]="{'border-top': i==0? '1px solid black': ''}" >
+                {{usuario.email}}
+            </div>
+            <div [className]="'span4'" [ngStyle]="{'border-top': i==0? '1px solid black': ''}" >
+                <button (click)="openModalEdit(usuario.id)">Editar</button>
+            </div>
+            <div [className]="'span5'"  [ngStyle]="{'border-top': i==0? '1px solid black': ''}" >
+                <button (click)="openModalEliminar(usuario.id)">Eliminar</button>
+            </div>
+    </div>
+</div>
+
+<button [className]="'btn1'" (click)="clean()">Limpiar pantalla</button>
+<button [className]="'btn2'" (click)="getListado()">Mostrar usuarios</button>
+
+<jw-modal id="modal-1">
+    <h1 *ngIf="!isCreateModal">Editar el usuario</h1>
+    <h1 *ngIf="isCreateModal">Alta de usuario</h1>
+    <div class="modalForm">
+        <div [className]="'col1'">
+            <div [className]="'celda'">Usuario:</div>
+            <div [className]="'celda'">Contraseña:</div>
+            <div [className]="'celda'" *ngIf="isCreateModal">Confirme Contraseña:</div>
+            <div [className]="'celda'">Primer Nombre:</div>
+            <div [className]="'celda'">Segundo Nombre:</div>
+            <div [className]="'celda'">Apellidos:</div>
+            <div [className]="'celda'">Correo:</div>
+            <div [className]="'celda'"><button (click)="save();">Guardar</button></div>
+        </div>
+        <div [className]="'col2'">
+            <div [className]="'celda'" *ngIf="!isCreateModal"><input type="text" [(ngModel)]="usuarioEditar.username" size="20" maxlength="20" readonly="true" required/></div>
+            <div [className]="'celda'" *ngIf="isCreateModal"><input type="text" [(ngModel)]="usuarioEditar.username" size="20" maxlength="20" required/></div>
+            <div [className]="'celda'" *ngIf="isCreateModal" >
+                <input type="password" [(ngModel)]="usuarioEditar.password" size="30" maxlength="30" required/></div>
+            <div [className]="'celda'" *ngIf="isCreateModal">
+                <input type="password" (change)="onPasswordChange()" [(ngModel)]="passwordConfirm" size="30" maxlength="30" required
+                       [className]="pwdInvalid? 'invalid': ''"/>
+            </div>
+            <div [className]="'celda'" *ngIf="!isCreateModal"><input type="password" [(ngModel)]="usuarioEditar.password" size="30" maxlength="30" disabled="true"/></div>
+            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.firstName" size="60" maxlength="60"/></div>
+            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.middleName" size="60" maxlength="60"/></div>
+            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.lastName" size="60" maxlength="60"/></div>
+            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.email" size="60" maxlength="60" required/></div>
+            <div [className]="'celda'"><button (click)="closeModal('modal-1');">Cerrar</button></div>
+        </div>
+    </div>
+</jw-modal>
+
+<jw-modal id="modal-2">
+    <h1>Elimnar Usuario</h1>
+    <p>¿Está usted seguro de elminar el usuario: {{usuarioBorrar.username}}?</p>
+    <div class="modalForm">
+        <div [className]="'col1'">
+            <div [className]="'celda'"><button (click)="delete();">Eliminar</button></div>
+        </div>
+        <div [className]="'col2'">
+            <div [className]="'celda'"><button (click)="closeModal('modal-2');">Cerrar</button></div>
+        </div>
+    </div>
+</jw-modal>
+
+<jw-modal id="modal-3">
+    <p>No es posible guardar, necesita llenar los campos requeridos</p>
+    <div class="modalForm">
+        <div [className]="'col1'">
+            <div [className]="'celda'"><button (click)="closeModal('modal-3');">Cerrar</button></div>
+        </div>
+    </div>
+</jw-modal>

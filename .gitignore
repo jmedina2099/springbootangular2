@@ -1,0 +1,8 @@
+target
+
+src/main/js/angularapp/node
+src/main/js/angularapp/node_modules
+src/main/js/angularapp/dist
+src/main/js/angularapp/.angular
+src/main/js/angularapp/.scannerwork
+logs
