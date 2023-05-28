@@ -165,6 +165,31 @@
 		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
 		                </configuration>
 		                <executions>
+		                   <execution>
+		                        <id>install-npm</id>
+		                        <goals>
+		                            <goal>install-node-and-npm</goal>
+		                        </goals>
+		                    </execution>
+		                    <execution>
+		                        <id>npm-install</id>
+		                        <goals>
+		                            <goal>npm</goal>
+		                        </goals>
+		                        <configuration>
+					              <arguments>install</arguments>
+					              <installDirectory>${frontend.src.dir}</installDirectory>
+					            </configuration>
+		                    </execution>
+		                    <execution>
+		                        <id>npm-build</id>
+		                        <goals>
+		                            <goal>npm</goal>
+		                        </goals>
+		                        <configuration>
+		                            <arguments>run-script build -- --base-href /angularapp/</arguments>
+		                        </configuration>
+		                    </execution>
 		                    <execution>
 		                        <id>npm-test</id>
 		                        <goals>
