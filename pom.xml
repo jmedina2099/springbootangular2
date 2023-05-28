@@ -121,6 +121,9 @@
 		                    <filesets>
 		                        <fileset>
 		                            <directory>${frontend.src.dir}/node</directory>
+		                            <includes>
+										<include>**</include>
+									</includes>
 		                        </fileset>
 		                        <fileset>
 		                            <directory>${frontend.src.dir}/node_modules</directory>
