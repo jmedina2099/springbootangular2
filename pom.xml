@@ -32,14 +32,7 @@
 	        </activation>
 	        <build>
 				<plugins>
-					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-		                <configuration>
-					        <skip>true</skip>
-					    </configuration>
-		            </plugin>
-				</plugins>
+				</plugins>            
 			</build>
 	    </profile>
 	    <profile>
@@ -49,13 +42,6 @@
 	        </properties>
 	        <build>
 				<plugins>
-					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-		                <configuration>
-					        <skip>true</skip>
-					    </configuration>
-		            </plugin>
 				</plugins>
 			</build>
 	    </profile>
@@ -63,13 +49,6 @@
 			<id>front</id>
 			<build>
             	<plugins>
-					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-		                <configuration>
-					        <skip>true</skip>
-					    </configuration>
-		            </plugin>
 					<plugin>
 		                <groupId>com.github.eirslett</groupId>
 		                <artifactId>frontend-maven-plugin</artifactId>
@@ -85,12 +64,14 @@
 		                        <goals>
 		                            <goal>install-node-and-npm</goal>
 		                        </goals>
+		                        <phase>initialize</phase>
 		                    </execution>
 		                    <execution>
 		                        <id>npm-install</id>
 		                        <goals>
 		                            <goal>npm</goal>
 		                        </goals>
+		                        <phase>initialize</phase>
 		                        <configuration>
 					              <arguments>install</arguments>
 					              <installDirectory>${frontend.src.dir}</installDirectory>
@@ -101,12 +82,34 @@
 		                        <goals>
 		                            <goal>npm</goal>
 		                        </goals>
+		                        <phase>initialize</phase>
 		                        <configuration>
 		                            <arguments>run-script build -- --base-href /angularapp/</arguments>
 		                        </configuration>
 		                    </execution>
 		                </executions>
 		            </plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+		    			<artifactId>maven-resources-plugin</artifactId>
+		    			<executions>
+							<execution>
+								<id>prepare-dist</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/target/classes/static/angularapp</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+		    			</executions>
+		    		</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -151,11 +154,6 @@
 	        <build>
 				<plugins>
 					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-						<version>3.1.0</version><!--$NO-MVN-MAN-VER$-->				
-		            </plugin>
-					<plugin>
 		                <groupId>com.github.eirslett</groupId>
 		                <artifactId>frontend-maven-plugin</artifactId>
 		                <version>1.12.1</version>
@@ -165,41 +163,25 @@
 		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
 		                </configuration>
 		                <executions>
-		                   <execution>
-		                        <id>install-npm</id>
-		                        <goals>
-		                            <goal>install-node-and-npm</goal>
-		                        </goals>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-install</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <configuration>
-					              <arguments>install</arguments>
-					              <installDirectory>${frontend.src.dir}</installDirectory>
-					            </configuration>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-build</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <configuration>
-		                            <arguments>run-script build -- --base-href /angularapp/</arguments>
-		                        </configuration>
-		                    </execution>
 		                    <execution>
 		                        <id>npm-test</id>
 		                        <goals>
 		                            <goal>npm</goal>
 		                        </goals>
+		                        <phase>test</phase>
 		                        <configuration>
 		                            <arguments>run-script test -- --watch=false</arguments>
 		                        </configuration>
 		                    </execution>
 		                </executions>
+		            </plugin>
+					<plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-surefire-plugin</artifactId>
+						<version>3.1.0</version><!--$NO-MVN-MAN-VER$-->	
+						<configuration>
+					        <skip>false</skip>
+					    </configuration>
 		            </plugin>
 				</plugins>
 			</build>
@@ -208,18 +190,6 @@
 	        <id>sonar</id>
 	        <build>
 				<plugins>
-					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-		                <configuration>
-					        <skip>true</skip>
-					    </configuration>
-		            </plugin>
-		            <plugin>
-						<groupId>org.sonarsource.scanner.maven</groupId>
-						<artifactId>sonar-maven-plugin</artifactId>
-						<version>3.9.1.2184</version>
-					</plugin>
 					<plugin>
 		                <groupId>com.github.eirslett</groupId>
 		                <artifactId>frontend-maven-plugin</artifactId>
@@ -235,12 +205,18 @@
 		                        <goals>
 		                            <goal>npm</goal>
 		                        </goals>
+		                        <phase>sonar</phase>
 		                        <configuration>
 		                            <arguments>run-script sonar</arguments>
 		                        </configuration>
 		                    </execution>
 		                </executions>
 		            </plugin>
+		            <plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>3.9.1.2184</version>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -293,12 +269,6 @@
 
     <build>
 		<finalName>springbootangulardev</finalName>
-		<resources>
-            <resource>
-                <directory>${resources.dir}</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>		
         <plugins>
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -313,35 +283,14 @@
                         </fileset>
 		    		</filesets>
                 </configuration>
-            </plugin>			
+            </plugin>
 			<plugin>    
 		        <artifactId>maven-compiler-plugin</artifactId>
 		        <configuration>
 		            <source>${java.version}</source>
 		            <target>${java.version}</target>
 		        </configuration>
-		    </plugin>            
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-    			<artifactId>maven-resources-plugin</artifactId>
-    			<executions>
-					<execution>
-						<id>copy-dist</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.basedir}/target/classes/static/angularapp</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-    			</executions>
-    		</plugin>
+		    </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -357,6 +306,13 @@
 				<configuration>    
             		<mainClass>org.springbootangular.app.Application</mainClass>
         		</configuration>                
+            </plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+			        <skip>true</skip>
+			    </configuration>
             </plugin>
         </plugins>
     </build>
