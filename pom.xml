@@ -298,10 +298,6 @@
                 <directory>${resources.dir}</directory>
                 <filtering>true</filtering>
             </resource>
-			<resource>
-       			<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-       			<targetPath>static/angularapp</targetPath>
-   			</resource>
         </resources>		
         <plugins>
 			<plugin>
@@ -324,7 +320,28 @@
 		            <source>${java.version}</source>
 		            <target>${java.version}</target>
 		        </configuration>
-		    </plugin>
+		    </plugin>            
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-resources-plugin</artifactId>
+    			<executions>
+					<execution>
+						<id>copy-dist</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/target/classes/static/angularapp</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+    			</executions>
+    		</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
