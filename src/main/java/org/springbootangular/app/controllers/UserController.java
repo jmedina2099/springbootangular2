@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<UsuarioDTO>> getUsers() {
     	
-    	logger.debug( "Getting users.." );
+    	logger.info( "Getting users.." );
     	
     	List<UsuarioDTO> lista = new ArrayList<>();
 		try {
@@ -82,7 +82,7 @@ public class UserController {
     @PostMapping("/create")
     public synchronized ResponseEntity<UsuarioDTO> createUser( @RequestBody UsuarioDTO usuarioDTO) {
 
-    	logger.debug( "Create user.." );
+    	logger.info( "Create user.." );
 
     	try {
     		Usuario usuario = usuarioDTO.transform();
@@ -101,7 +101,7 @@ public class UserController {
     @PutMapping("/update")
     public synchronized ResponseEntity<UsuarioDTO> modifyUser( @RequestBody UsuarioDTO usuarioDTO) {
     	
-    	logger.debug( "Update user.." );
+    	logger.info( "Update user.." );
     	
 		try {
 			Usuario usuario = usuarioDTO.transform();
@@ -124,7 +124,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public synchronized ResponseEntity<UsuarioDTO> deleteUser( @RequestBody UsuarioDTO usuarioDTO) {
 
-    	logger.debug( "Delete user.." );
+    	logger.info( "Delete user.." );
     	
     	try {
 			this.userService.delete(usuarioDTO.getId());

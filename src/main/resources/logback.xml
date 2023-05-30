@@ -12,6 +12,7 @@
 	<property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %logger : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
 	<property name="FILE_LOG_CHARSET" value="${FILE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
 
+  <springProfile name="local | dev">
 	<logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
 	<logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
 	<logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
@@ -25,27 +26,23 @@
 	<logger name="org.hibernate" level="INFO"/>
 	<logger name="org.springframework.boot.autoconfigure.logging" level="INFO"/>
 
-	<property name="LOG_FILE" value="logs/spring.log"/>
-  
-  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <encoder>
+	<property name="LOG_FILE" value="logs/spring-dev.log"/>
+	 <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	   <encoder>
 		<pattern>${FILE_LOG_PATTERN}</pattern>
 		<charset>${FILE_LOG_CHARSET}</charset>
-    </encoder>
-    <file>${LOG_FILE}</file>
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
-    </rollingPolicy>
-  </appender>
-
+	   </encoder>
+	   <file>${LOG_FILE}</file>
+	   <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	     <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
+	   </rollingPolicy>
+	 </appender>
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 	</appender>
-
-  <springProfile name="local | dev">
     <logger name="org.springframework" level="INFO" additivity="false">
       <appender-ref ref="CONSOLE" />
       <appender-ref ref="FILE" />      
@@ -61,6 +58,17 @@
   </springProfile>
  
   <springProfile name="prod">
+	<property name="LOG_FILE" value="logs/spring-prod.log"/>
+	 <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	   <encoder>
+		<pattern>${FILE_LOG_PATTERN}</pattern>
+		<charset>${FILE_LOG_CHARSET}</charset>
+	   </encoder>
+	   <file>${LOG_FILE}</file>
+	   <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	     <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
+	   </rollingPolicy>
+	 </appender>
   	<logger name="org.jboss" level="OFF" />
   	<logger name="org.apache.catalina" level="OFF" />
   	<logger name="org.apache.coyote" level="OFF" />
@@ -70,11 +78,11 @@
     <logger name="org.springframework" level="OFF" />
     <logger name="_org.springframework" level="OFF" />
     
-    <logger name="org.springbootangular.app" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE" />
+    <logger name="org.springbootangular.app" level="INFO" additivity="false">
+        <appender-ref ref="FILE" />
     </logger>  	
     <root level="DEBUG">
-      <appender-ref ref="CONSOLE" />
+      <appender-ref ref="FILE" />
     </root>
   </springProfile>
   
