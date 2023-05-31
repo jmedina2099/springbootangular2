@@ -14,6 +14,8 @@
   
   <properties>
 	  <resources.dir>${project.basedir}/src/main/resources</resources.dir>
+	  <resources.dir.dev>${project.basedir}/src/main/resources-dev</resources.dir.dev>
+	  <resources.dir.prod>${project.basedir}/src/main/resources-prod</resources.dir.prod>
 	  <frontend.src.dir>${project.basedir}/src/main/js/angularapp</frontend.src.dir>
 	  <frontend.dist.dir>${project.basedir}/src/main/js/angularapp/dist</frontend.dist.dir>
 	  <java.version>17</java.version>
@@ -31,6 +33,16 @@
 	            <activeByDefault>true</activeByDefault>
 	        </activation>
 	        <build>
+				<resources>
+					<resource>
+						<directory>${resources.dir}</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>${resources.dir.dev}</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
 				<plugins>
 					<plugin>    
 				        <artifactId>maven-compiler-plugin</artifactId>
@@ -48,6 +60,16 @@
 	            <spring.profiles.active>prod</spring.profiles.active>
 	        </properties>
 	        <build>
+				<resources>
+					<resource>
+						<directory>${resources.dir}</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>${resources.dir.prod}</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
 				<plugins>
 					<plugin>    
 				        <artifactId>maven-compiler-plugin</artifactId>
