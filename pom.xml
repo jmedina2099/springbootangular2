@@ -21,6 +21,8 @@
 	  <java.version>17</java.version>
 	  <node.version>v20.2.0</node.version>
 	  <frontend.app.name>angularfront</frontend.app.name>
+	  <frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
+	  <frontend.app.base.href.prod>/angularapp/</frontend.app.base.href.prod>
   </properties>
   
   	<profiles>
@@ -120,7 +122,7 @@
 		                        </goals>
 		                        <phase>initialize</phase>
 		                        <configuration>
-		                            <arguments>run-script build -- --base-href /angularapp/</arguments>
+		                            <arguments>run-script build -- --base-href ${frontend.app.base.href}</arguments>
 		                        </configuration>
 		                    </execution>
 		                </executions>
@@ -136,7 +138,7 @@
 									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<outputDirectory>${project.basedir}/target/classes/static/angularapp</outputDirectory>
+									<outputDirectory>${project.basedir}/target/classes/static/${frontend.app.base.href}</outputDirectory>
 									<resources>
 										<resource>
 											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
@@ -188,7 +190,7 @@
 		                        </goals>
 		                        <phase>initialize</phase>
 		                        <configuration>
-		                            <arguments>run-script prod -- --base-href /angularapp/</arguments>
+		                            <arguments>run-script prod -- --base-href ${frontend.app.base.href.prod}</arguments>
 		                        </configuration>
 		                    </execution>
 		                </executions>
@@ -204,7 +206,7 @@
 									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<outputDirectory>${project.basedir}/target/classes/static/angularapp</outputDirectory>
+									<outputDirectory>${project.basedir}/target/classes/static/${frontend.app.base.href.prod}</outputDirectory>
 									<resources>
 										<resource>
 											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>

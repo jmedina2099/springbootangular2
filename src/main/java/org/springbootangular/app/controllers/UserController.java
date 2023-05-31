@@ -33,7 +33,7 @@ import jakarta.validation.ValidationException;
  *
  */
 @RestController
-@RequestMapping("/angularapp")
+@RequestMapping("/${context.path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 	
