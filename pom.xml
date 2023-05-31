@@ -224,28 +224,37 @@
 					<plugin>
 		                <groupId>org.apache.maven.plugins</groupId>
 		                <artifactId>maven-clean-plugin</artifactId>
-		                <configuration>
-		                    <filesets>
-		                        <fileset>
-		                            <directory>${frontend.src.dir}/node</directory>
-		                            <includes>
-										<include>**</include>
-									</includes>
-		                        </fileset>
-		                        <fileset>
-		                            <directory>${frontend.src.dir}/node_modules</directory>
-		                        </fileset>
-		                        <fileset>
-		                            <directory>${frontend.dist.dir}</directory>
-		                        </fileset>
-		                        <fileset>
-		                            <directory>${frontend.src.dir}/.angular</directory>
-		                        </fileset>
-		                        <fileset>
-		                            <directory>${frontend.src.dir}/.scannerwork</directory>
-		                        </fileset>
-				    		</filesets>
-		                </configuration>
+		                <executions>
+							<execution>
+								<id>clean-front</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+				                <configuration>
+				                    <filesets>
+				                        <fileset>
+				                            <directory>${frontend.src.dir}/node</directory>
+				                            <includes>
+												<include>**</include>
+											</includes>
+				                        </fileset>
+				                        <fileset>
+				                            <directory>${frontend.src.dir}/node_modules</directory>
+				                        </fileset>
+				                        <fileset>
+				                            <directory>${frontend.dist.dir}</directory>
+				                        </fileset>
+				                        <fileset>
+				                            <directory>${frontend.src.dir}/.angular</directory>
+				                        </fileset>
+				                        <fileset>
+				                            <directory>${frontend.src.dir}/.scannerwork</directory>
+				                        </fileset>
+						    		</filesets>
+				                </configuration>
+							</execution>
+		                </executions>
 		            </plugin>					
 				</plugins>				
 			</build>
@@ -377,16 +386,25 @@
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-							<directory>${project.basedir}/logs</directory>
-                            <includes>
-								<include>*</include>
-							</includes>
-                        </fileset>
-		    		</filesets>
-                </configuration>
+                <executions>
+					<execution>
+						<id>clean-logs</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+		                    <filesets>
+		                        <fileset>
+									<directory>${project.basedir}/logs</directory>
+		                            <includes>
+										<include>*</include>
+									</includes>
+		                        </fileset>
+				    		</filesets>
+						</configuration>
+					</execution>
+				</executions>
             </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

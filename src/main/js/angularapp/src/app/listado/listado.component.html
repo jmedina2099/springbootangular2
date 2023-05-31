@@ -26,34 +26,51 @@
 <jw-modal id="modal-1">
     <h1 *ngIf="!isCreateModal">Editar el usuario</h1>
     <h1 *ngIf="isCreateModal">Alta de usuario</h1>
-    <div class="modalForm">
-        <div [className]="'col1'">
-            <div [className]="'celda'">Usuario:</div>
-            <div [className]="'celda'">Contraseña:</div>
-            <div [className]="'celda'" *ngIf="isCreateModal">Confirme Contraseña:</div>
-            <div [className]="'celda'">Primer Nombre:</div>
-            <div [className]="'celda'">Segundo Nombre:</div>
-            <div [className]="'celda'">Apellidos:</div>
-            <div [className]="'celda'">Correo:</div>
-            <div [className]="'celda'"><button (click)="save();">Guardar</button></div>
-        </div>
-        <div [className]="'col2'">
-            <div [className]="'celda'" *ngIf="!isCreateModal"><input type="text" [(ngModel)]="usuarioEditar.username" size="20" maxlength="20" readonly="true" required/></div>
-            <div [className]="'celda'" *ngIf="isCreateModal"><input type="text" [(ngModel)]="usuarioEditar.username" size="20" maxlength="20" required/></div>
-            <div [className]="'celda'" *ngIf="isCreateModal" >
-                <input type="password" [(ngModel)]="usuarioEditar.password" size="30" maxlength="30" required/></div>
-            <div [className]="'celda'" *ngIf="isCreateModal">
-                <input type="password" (change)="onPasswordChange()" [(ngModel)]="passwordConfirm" size="30" maxlength="30" required
-                       [className]="pwdInvalid? 'invalid': ''"/>
+    <form>
+        <div class="modalForm">
+            <div [className]="'col1'">
+                <div [className]="'celda'">Usuario:</div>
+                <div [className]="'celda'">Contraseña:</div>
+                <div [className]="'celda'" *ngIf="isCreateModal">Confirme Contraseña:</div>
+                <div [className]="'celda'">Primer Nombre:</div>
+                <div [className]="'celda'">Segundo Nombre:</div>
+                <div [className]="'celda'">Apellidos:</div>
+                <div [className]="'celda'">Correo:</div>
+                <div [className]="'celda'"><button (click)="save();">Guardar</button></div>
             </div>
-            <div [className]="'celda'" *ngIf="!isCreateModal"><input type="password" [(ngModel)]="usuarioEditar.password" size="30" maxlength="30" disabled="true"/></div>
-            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.firstName" size="60" maxlength="60"/></div>
-            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.middleName" size="60" maxlength="60"/></div>
-            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.lastName" size="60" maxlength="60"/></div>
-            <div [className]="'celda'"><input type="text" [(ngModel)]="usuarioEditar.email" size="60" maxlength="60" required/></div>
-            <div [className]="'celda'"><button (click)="closeModal('modal-1');">Cerrar</button></div>
+            <div [className]="'col2'">
+                    <div [className]="'celda'" *ngIf="!isCreateModal">
+                        <input type="text" name="username1" [(ngModel)]="usuarioEditar.username" autocomplete="off" size="20" maxlength="20" readonly="true" required/>
+                    </div>
+                    <div [className]="'celda'" *ngIf="isCreateModal">
+                        <input type="text" name="username2" [(ngModel)]="usuarioEditar.username"  autocomplete="off" size="20" maxlength="20" required/>
+                    </div>
+                    <div [className]="'celda'" *ngIf="isCreateModal" >
+                        <input type="password" name="password1" [(ngModel)]="usuarioEditar.password"  autocomplete="off" size="30" maxlength="30" required/>
+                    </div>
+                    <div [className]="'celda'" *ngIf="isCreateModal">
+                        <input type="password" name="passwordConfirm" [(ngModel)]="passwordConfirm" autocomplete="off" size="30" maxlength="30" required
+                            [className]="pwdInvalid? 'invalid': ''" (change)="onPasswordChange()" />
+                    </div>
+                    <div [className]="'celda'" *ngIf="!isCreateModal">
+                        <input type="password" name="password2" [(ngModel)]="usuarioEditar.password" autocomplete="off"s ize="30" maxlength="30" disabled="true"/>
+                    </div>
+                    <div [className]="'celda'">
+                        <input type="text" name="firstName" [(ngModel)]="usuarioEditar.firstName" autocomplete="off" size="60" maxlength="60"/>
+                    </div>
+                    <div [className]="'celda'">
+                        <input type="text" name="middleName" [(ngModel)]="usuarioEditar.middleName" autocomplete="off" size="60" maxlength="60"/>
+                    </div>
+                    <div [className]="'celda'">
+                        <input type="text" name="lastName" [(ngModel)]="usuarioEditar.lastName" autocomplete="off" size="60" maxlength="60"/>
+                    </div>
+                    <div [className]="'celda'">
+                        <input type="email" name="email" [(ngModel)]="usuarioEditar.email" autocomplete="off" size="60" maxlength="60" required/>
+                    </div>
+                    <div [className]="'celda'"><button (click)="closeModal('modal-1');">Cerrar</button></div>
+            </div>
         </div>
-    </div>
+    </form>
 </jw-modal>
 
 <jw-modal id="modal-2">

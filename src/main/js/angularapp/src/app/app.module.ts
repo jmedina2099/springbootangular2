@@ -9,6 +9,7 @@ import { FetchUsuariosService } from './fetch-usuarios.service';
 import { ModalComponent } from './modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { ModalService } from './modal-service.service';
+import { LoggerService } from './logger.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { ModalService } from './modal-service.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [FetchUsuariosService,ModalService],
+  providers: [FetchUsuariosService,ModalService,LoggerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

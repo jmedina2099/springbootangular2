@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FetchUsuariosService } from '../fetch-usuarios.service';
 import { Usuario } from '../user/usuario';
 import { ModalService } from '../modal-service.service';
+import { LoggerService } from '../logger.service';
 
 @Component({
   selector: 'app-listado',
@@ -32,13 +33,17 @@ export class ListadoComponent {
 
   usuarioBorrar: Usuario = { ...this.usuarioDefault };
 
-  constructor( private service: FetchUsuariosService, private modalService: ModalService) {}
+  constructor( private service: FetchUsuariosService, private modalService: ModalService,private loggerService: LoggerService) {}
 
   getListado() {
     this.service.fetchUsuarios()
       .subscribe( (data:Usuario[]) => {
-        console.log(data);
-        this.usuarios = data;
+        if( data ) {
+          data.forEach( (usuario: Usuario) => {
+            this.loggerService.log(JSON.stringify(usuario));
+          });
+          this.usuarios = data;
+        }
       } );
   }
 
@@ -55,14 +60,14 @@ export class ListadoComponent {
       if( this.isCreateModal ) {
         this.service.createUsuario(this.usuarioEditar)
         .subscribe( () => {
-          console.log('OK');
+          this.loggerService.log('OK');
           this.modalService.close('modal-1');
           this.getListado();
         });
       } else {
         this.service.updateUsuario(this.usuarioEditar)
         .subscribe( () => {
-          console.log('OK');
+          this.loggerService.log('OK');
           this.modalService.close('modal-1');
           this.getListado();
         });
@@ -73,11 +78,11 @@ export class ListadoComponent {
   }
 
   delete() {
-    console.log('Borrar');
+    this.loggerService.log('Borrar');
     if( this.usuarioBorrar ) {
       this.service.deleteUsuario(this.usuarioBorrar)
       .subscribe( () => {
-        console.log('OK');
+        this.loggerService.log('OK');
         this.getListado();
       });
     }
@@ -88,7 +93,7 @@ export class ListadoComponent {
   }
 
   openModalCreate() {
-    console.log( 'openModalCreate') ;
+    this.loggerService.log( 'openModalCreate') ;
     this.isCreateModal = true;
     this.usuarioEditar = { ...this.usuarioDefault };
     this.passwordConfirm = undefined;
@@ -97,7 +102,7 @@ export class ListadoComponent {
 
   onPasswordChange() {
     if( this.usuarioEditar.password != this.passwordConfirm ) {
-      console.log( 'WRONG' )
+      this.loggerService.log( 'WRONG' )
       this.pwdInvalid = true;
     } else {
       this.pwdInvalid = false;
@@ -105,7 +110,7 @@ export class ListadoComponent {
   }
 
   openModalEdit(id: number) {
-    console.log( 'openModalEdit='+id) ;
+    this.loggerService.log( 'openModalEdit='+id) ;
     this.isCreateModal = false;
     if( this.usuarios ) {
       this.usuarios.forEach( usuario => {
@@ -118,7 +123,7 @@ export class ListadoComponent {
   }
 
   openModalEliminar(id: number) {
-    console.log( 'openModalEliminar='+id) ;
+    this.loggerService.log( 'openModalEliminar='+id) ;
     if( this.usuarios ) {
       this.usuarios.forEach( usuario => {
         if( usuario.id === id ) {
@@ -130,7 +135,7 @@ export class ListadoComponent {
   }
 
   closeModal(id: string) {
-    console.log('Close modal');
+    this.loggerService.log('Close modal');
     this.modalService.close(id);
   }
 
