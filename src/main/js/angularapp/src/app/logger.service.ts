@@ -6,8 +6,6 @@ import { environment } from 'src/environments/environment';
 })
 export class LoggerService {
 
-  constructor() {}
-
   log(msg: string) {
     if (!environment.production) {
       console.log(msg)

@@ -1,5 +1,6 @@
 export const environment = {
     production: false,
     apiKey: 'devKey',
-    backEndUrl: 'http://localhost:8080/angularapp-dev'
+    contextPath: 'angularapp-dev',
+    backEndUrl: 'http://localhost:8080/'
 };

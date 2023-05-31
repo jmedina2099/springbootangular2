@@ -23,6 +23,8 @@
 	  <frontend.app.name>angularfront</frontend.app.name>
 	  <frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
 	  <frontend.app.base.href.prod>/angularapp/</frontend.app.base.href.prod>
+	  <sonar.host.url>http://localhost:9000</sonar.host.url>
+	  <sonar.token>sqa_35a0e91883557bd596c441f96626147fffda0e0e</sonar.token>
   </properties>
   
   	<profiles>
@@ -53,6 +55,27 @@
 				            <target>${java.version}</target>
 				        </configuration>
 				    </plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+		    			<artifactId>maven-resources-plugin</artifactId>
+		    			<executions>
+							<execution>
+								<id>prepare-dist</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/target/classes/static/${frontend.app.base.href}</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+		    			</executions>
+		    		</plugin>
 				</plugins>            
 			</build>
 	    </profile>
@@ -80,6 +103,27 @@
 				            <target>${java.version}</target>
 				        </configuration>
 				    </plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+		    			<artifactId>maven-resources-plugin</artifactId>
+		    			<executions>
+							<execution>
+								<id>prepare-dist</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/target/classes/static/${frontend.app.base.href.prod}</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+		    			</executions>
+		    		</plugin>
 				</plugins>
 			</build>
 	    </profile>
@@ -127,27 +171,6 @@
 		                    </execution>
 		                </executions>
 		            </plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-		    			<artifactId>maven-resources-plugin</artifactId>
-		    			<executions>
-							<execution>
-								<id>prepare-dist</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>${project.basedir}/target/classes/static/${frontend.app.base.href}</outputDirectory>
-									<resources>
-										<resource>
-											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-		    			</executions>
-		    		</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -195,27 +218,6 @@
 		                    </execution>
 		                </executions>
 		            </plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-		    			<artifactId>maven-resources-plugin</artifactId>
-		    			<executions>
-							<execution>
-								<id>prepare-dist</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>${project.basedir}/target/classes/static/${frontend.app.base.href.prod}</outputDirectory>
-									<resources>
-										<resource>
-											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-		    			</executions>
-		    		</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -264,7 +266,7 @@
 		<profile>
 	        <id>test</id>
 			<properties>
-	            <spring.profiles.active>test</spring.profiles.active>
+	            <spring.profiles.active>dev</spring.profiles.active>
 	        </properties>	        
 	        <build>
 				<plugins>
@@ -296,6 +298,7 @@
 						<version>3.1.0</version><!--$NO-MVN-MAN-VER$-->	
 						<configuration>
 					        <skip>false</skip>
+					        <argLine>-Dspring.profiles.active=${spring.profiles.active}</argLine>
 					    </configuration>
 		            </plugin>
 				</plugins>
@@ -320,7 +323,7 @@
 		                        <goals>
 		                            <goal>npm</goal>
 		                        </goals>
-		                        <phase>sonar</phase>
+		                        <phase>validate</phase>
 		                        <configuration>
 		                            <arguments>run-script sonar</arguments>
 		                        </configuration>
@@ -331,6 +334,15 @@
 						<groupId>org.sonarsource.scanner.maven</groupId>
 						<artifactId>sonar-maven-plugin</artifactId>
 						<version>3.9.1.2184</version>
+						<executions>
+							<execution>
+								<id>java-sonar</id>
+								<goals>
+									<goal>sonar</goal>
+								</goals>
+								<phase>validate</phase>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>

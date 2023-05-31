@@ -5,7 +5,9 @@ package org.springbootangular.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springbootangular.app.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -41,16 +44,30 @@ public class ApplicationTests {
 	
 	private Logger logger = LoggerFactory.getLogger(ApplicationTests.class);
 	
+	@Value("${context.path}")
+	private String contextPath;
+
 	@LocalServerPort
     private String port;
 	
 	@Autowired
     private TestRestTemplate restTemplate;
 	
+	private String getUrlBase() {
+		String hostAddress = "";
+		try {
+			hostAddress = InetAddress.getLocalHost().getHostAddress();
+			logger.debug( hostAddress );
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return "http://"+hostAddress +":"+ port +"/"+ contextPath;
+	}
+
 	@Test
     public void getUsers() throws Exception {
 		
-		String url = "http://localhost:" + port + "/angularapp/users";
+		String url = getUrlBase() + "/users";
 
 		List<UsuarioDTO> lista = new ArrayList<UsuarioDTO>();
 		
@@ -83,7 +100,7 @@ public class ApplicationTests {
 	@Test
 	public void modifyUser() throws Exception {
 		
-		String url = "http://localhost:" + port + "/angularapp/update";
+		String url = getUrlBase() + "/update";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId( 2l );
@@ -100,7 +117,7 @@ public class ApplicationTests {
 	@Test
 	public void removeUser() throws Exception {
 		
-		String url = "http://localhost:" + port + "/angularapp/delete";
+		String url = getUrlBase() + "/delete";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId( 3l );
@@ -113,7 +130,7 @@ public class ApplicationTests {
 	@Test
 	public void saveUser() throws Exception {
 		
-		String url = "http://localhost:" + port + "/angularapp/create";
+		String url = getUrlBase() + "/create";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setUsername( "jmedina" );
@@ -137,7 +154,7 @@ public class ApplicationTests {
 	
 	@Test
 	public void testCreate() throws Exception {
-		String url = "http://localhost:" + port + "/angularapp/delete";
+		String url = getUrlBase() + "/delete";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId( 3l );

@@ -56,34 +56,5 @@
       <appender-ref ref="FILE" />
     </root>
   </springProfile>
- 
-  <springProfile name="prod">
-	<property name="LOG_FILE" value="logs/spring-prod.log"/>
-	 <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-	   <encoder>
-		<pattern>${FILE_LOG_PATTERN}</pattern>
-		<charset>${FILE_LOG_CHARSET}</charset>
-	   </encoder>
-	   <file>${LOG_FILE}</file>
-	   <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-	     <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
-	   </rollingPolicy>
-	 </appender>
-  	<logger name="org.jboss" level="OFF" />
-  	<logger name="org.apache.catalina" level="OFF" />
-  	<logger name="org.apache.coyote" level="OFF" />
-  	<logger name="org.apache.tomcat" level="OFF" />
-    <logger name="org.hibernate" level="OFF" />
-  	<logger name="com.zaxxer.hikari" level="OFF" />
-    <logger name="org.springframework" level="OFF" />
-    <logger name="_org.springframework" level="OFF" />
-    
-    <logger name="org.springbootangular.app" level="INFO" additivity="false">
-        <appender-ref ref="FILE" />
-    </logger>  	
-    <root level="DEBUG">
-      <appender-ref ref="FILE" />
-    </root>
-  </springProfile>
   
 </configuration>

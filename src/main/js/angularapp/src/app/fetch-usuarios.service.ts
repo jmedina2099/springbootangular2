@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class FetchUsuariosService {
-  private configUrl: string = environment.backEndUrl;
+  private configUrl: string = environment.backEndUrl + environment.contextPath;
 
   constructor(private http: HttpClient,private loggerService: LoggerService) { }
 
