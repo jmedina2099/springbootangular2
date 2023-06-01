@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.springbootangular.app.config;
+package org.springbootangular.app.config.dev;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

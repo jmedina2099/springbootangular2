@@ -40,9 +40,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class ApplicationTests {
+public class ApplicationTest {
 	
-	private Logger logger = LoggerFactory.getLogger(ApplicationTests.class);
+	private Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
 	
 	@Value("${context.path}")
 	private String contextPath;
