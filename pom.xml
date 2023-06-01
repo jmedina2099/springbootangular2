@@ -730,37 +730,7 @@
 							<excludeDefaultDirectories>true</excludeDefaultDirectories>
 		                    <filesets>
 		                        <fileset>
-									<directory>${project.basedir}/target/classes</directory>
-		                            <includes>
-										<include>**/*</include>
-									</includes>
-		                        </fileset>
-		                        <fileset>
-									<directory>${project.basedir}/target/test-classes</directory>
-		                            <includes>
-										<include>**/*</include>
-									</includes>
-		                        </fileset>
-		                        <fileset>
-									<directory>${project.basedir}/target/generated-sources</directory>
-		                            <includes>
-										<include>**/*</include>
-									</includes>
-		                        </fileset>
-		                        <fileset>
-									<directory>${project.basedir}/target/generated-test-sources</directory>
-		                            <includes>
-										<include>**/*</include>
-									</includes>
-		                        </fileset>
-		                        <fileset>
-									<directory>${project.basedir}/target/surefire-reports</directory>
-		                            <includes>
-										<include>**/*</include>
-									</includes>
-		                        </fileset>
-		                        <fileset>
-									<directory>${project.basedir}/target/maven-status</directory>
+									<directory>${project.basedir}/target</directory>
 		                            <includes>
 										<include>**</include>
 									</includes>
