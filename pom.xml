@@ -54,7 +54,7 @@
 			            <executions>
 							<execution>
 								<id>clean-java</id>
-								<phase>clean</phase>
+								<phase>initialize</phase>
 								<goals>
 									<goal>clean</goal>
 								</goals>
@@ -62,10 +62,10 @@
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
 				                    <filesets>
 				                        <fileset>
-											<directory>${project.basedir}/target/classes</directory>
+											<directory>${project.basedir}/target</directory>
 				                            <includes>
-												<include>*.properties</include>
-												<include>*.xml</include>
+												<include>**/*.properties</include>
+												<include>**/*.xml</include>
 											</includes>
 				                        </fileset>
 						    		</filesets>
@@ -73,7 +73,7 @@
 							</execution>
 							<execution>
 								<id>clean-front</id>
-								<phase>clean</phase>
+								<phase>initialize</phase>
 								<goals>
 									<goal>clean</goal>
 								</goals>
@@ -107,6 +107,7 @@
 									<goal>compile</goal>
 								</goals>
 						        <configuration>
+									<useIncrementalCompilation>false</useIncrementalCompilation>
 						            <source>${java.version}</source>
 						            <target>${java.version}</target>
 						        </configuration>
@@ -200,7 +201,7 @@
 			            <executions>
 							<execution>
 								<id>clean-java</id>
-								<phase>clean</phase>
+								<phase>initialize</phase>
 								<goals>
 									<goal>clean</goal>
 								</goals>
@@ -208,10 +209,10 @@
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
 				                    <filesets>
 				                        <fileset>
-											<directory>${project.basedir}/target/classes</directory>
+											<directory>${project.basedir}/target</directory>
 				                            <includes>
-												<include>*.properties</include>
-												<include>*.xml</include>
+												<include>**/*.properties</include>
+												<include>**/*.xml</include>
 											</includes>
 				                        </fileset>
 						    		</filesets>
@@ -229,6 +230,7 @@
 									<goal>compile</goal>
 								</goals>
 						        <configuration>
+									<useIncrementalCompilation>false</useIncrementalCompilation>
 						            <source>${java.version}</source>
 						            <target>${java.version}</target>
 						        </configuration>
@@ -271,8 +273,15 @@
 				                        <fileset>
 											<directory>${project.basedir}/target/classes</directory>
 				                            <includes>
-												<include>*.properties</include>
-												<include>*.xml</include>
+												<include>**/*.properties</include>
+												<include>**/*.xml</include>
+												<include>**/dev/**</include>
+											</includes>
+				                        </fileset>
+				                        <fileset>
+											<directory>${project.basedir}/target/test-classes</directory>
+				                            <includes>
+												<include>**/*</include>
 											</includes>
 				                        </fileset>
 						    		</filesets>
@@ -306,6 +315,7 @@
 									<goal>compile</goal>
 								</goals>
 						        <configuration>
+									<useIncrementalCompilation>false</useIncrementalCompilation>
 						            <source>${java.version}</source>
 						            <target>${java.version}</target>
 						            <excludes>
