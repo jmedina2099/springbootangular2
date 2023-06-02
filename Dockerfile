@@ -28,7 +28,6 @@ RUN mkdir /home/tomcat-native/
 WORKDIR /home/tomcat-native/
 
 RUN apt install libapr1-dev libssl-dev -y
-
 RUN apt install gcc make -y
 
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-connectors/native/2.0.4/source/tomcat-native-2.0.4-src.tar.gz
