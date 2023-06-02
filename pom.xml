@@ -14,21 +14,11 @@
 
 	<properties>
 		<resources.dir>${project.basedir}/src/main/resources</resources.dir>
-		<resources.dir.env>${project.basedir}/src/main/resources-dev</resources.dir.env>
 		<frontend.src.dir>${project.basedir}/src/main/js/angularapp</frontend.src.dir>
 		<frontend.dist.dir>${project.basedir}/src/main/js/angularapp/dist</frontend.dist.dir>
 		<java.version>17</java.version>
 		<node.version>v20.2.0</node.version>
-		<final.name>springbootangulardev</final.name>
-		<skip.back>false</skip.back>
-		<skip.front>true</skip.front>
-		<skip.dev>false</skip.dev>
-		<skip.prod>true</skip.prod>
-		<skip.embedded>false</skip.embedded>
-		<skip.container>true</skip.container>
-		<build.configuration>build</build.configuration>
 		<frontend.app.name>angularfront</frontend.app.name>
-		<main.class>org.springbootangular.app.ApplicationEmbedded</main.class>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
 		<sonar.token>sqa_35a0e91883557bd596c441f96626147fffda0e0e</sonar.token>
 	</properties>
@@ -37,18 +27,18 @@
 		<profile>
 			<id>default</id>
 			<properties>
-				<spring.profiles.active>dev</spring.profiles.active>
-				<final.name>springbootangulardev</final.name>
-				<resources.dir.env>${project.basedir}/src/main/resources-dev</resources.dir.env>
-				<main.class>org.springbootangular.app.ApplicationEmbedded</main.class>
-				<frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
+				<spring.profiles.active>container-prod</spring.profiles.active>
+				<final.name>springbootangular</final.name>
+				<resources.dir.env>${project.basedir}/src/main/resources-container-prod</resources.dir.env>
+				<main.class>org.springbootangular.app.Application</main.class>
+				<frontend.app.base.href>/${final.name}/angularapp/</frontend.app.base.href>
 				<skip.back>false</skip.back>
 				<skip.front>false</skip.front>
-				<skip.dev>false</skip.dev>
-				<skip.prod>true</skip.prod>
-				<skip.embedded>false</skip.embedded>
-				<skip.container>true</skip.container>
-				<build.configuration>build</build.configuration>
+				<skip.dev>true</skip.dev>
+				<skip.prod>false</skip.prod>
+				<skip.embedded>true</skip.embedded>
+				<skip.container>false</skip.container>
+				<build.configuration>container-prod</build.configuration>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>

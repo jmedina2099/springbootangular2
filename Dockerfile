@@ -16,13 +16,13 @@ RUN apt install oracle-java17-installer -y
 
 RUN apt install tomcat10 -y
 
-RUN echo "spring.profiles.active=container-prod" >> /var/lib/tomcat10/conf/catalina.properties
-
 COPY lib/libtcnative-2.so /usr/lib
-COPY target/springbootangular.war /var/lib/tomcat10/webapps/
 
-ENV CATALINA_HOME /usr/share/tomcat10
-ENV CATALINA_BASE /var/lib/tomcat10
+COPY target/springbootangular.war /var/lib/tomcat10/webapps/
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=container-prod"
+
+ENV CATALINA_HOME="/usr/share/tomcat10"
+ENV CATALINA_BASE="/var/lib/tomcat10"
 
 ENV PATH $CATALINA_HOME/bin:$PATH
 
