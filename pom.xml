@@ -455,7 +455,7 @@
 								<fileset>
 									<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
 									<includes>
-										<include>**</include>
+										<include>**/*</include>
 									</includes>
 								</fileset>
 								<fileset>
