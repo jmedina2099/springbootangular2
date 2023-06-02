@@ -13,18 +13,48 @@ RUN apt install binutils binutils-common binutils-x86-64-linux-gnu ca-certificat
 
 RUN echo oracle-java17-installer shared/accepted-oracle-license-v1-3 select true | /usr/bin/debconf-set-selections
 RUN apt install oracle-java17-installer -y
+ENV JAVA_HOME="/usr/lib/jvm/java-17-oracle"
 
 RUN apt install tomcat10 -y
-
-COPY lib/libtcnative-2.so /usr/lib
-
-COPY target/springbootangular.war /var/lib/tomcat10/webapps/
-ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=container-prod"
-
 ENV CATALINA_HOME="/usr/share/tomcat10"
 ENV CATALINA_BASE="/var/lib/tomcat10"
-
 ENV PATH $CATALINA_HOME/bin:$PATH
+
+###################################################################
+# COPY lib/libtcnative-2.so /usr/lib
+###################################################################
+
+RUN mkdir /home/tomcat-native/
+WORKDIR /home/tomcat-native/
+
+RUN apt install libapr1-dev libssl-dev -y
+
+RUN apt install gcc make -y
+
+RUN wget https://dlcdn.apache.org/tomcat/tomcat-connectors/native/2.0.4/source/tomcat-native-2.0.4-src.tar.gz
+RUN tar xzvf tomcat-native-2.0.4-src.tar.gz
+WORKDIR tomcat-native-2.0.4-src/native
+RUN ./configure --with-apr=/usr/bin --with-ssl=/usr
+RUN make
+RUN cp .libs/libtcnative-2.so.0.0.4 /usr/lib/libtcnative-2.so
+
+###################################################################
+# COPY target/springbootangular.war /var/lib/tomcat10/webapps/
+###################################################################
+
+RUN mkdir /home/webapps/
+WORKDIR /home/webapps/
+
+RUN apt install maven git -y
+
+RUN git clone https://github.com/jmedina2099/springbootangular2.git
+WORKDIR springbootangular2
+
+RUN mvn package
+RUN cp target/springbootangular.war /var/lib/tomcat10/webapps/
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=container-prod"
+
+RUN echo "<meta http-equiv='refresh' content='0;url=/springbootangular'/>" > /var/lib/tomcat10/webapps/ROOT/index.html
 
 WORKDIR $CATALINA_HOME
 
