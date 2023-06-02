@@ -8,11 +8,9 @@ La aplicación usa maven 3.9.1 y con Java 17
 
 Se compila para development con:
 
-mvn compile -Pfront,dev
+mvn compile -Pfront-dev,dev
 
-/////////////////////////////////////////////////////////////////
-
-Se ejecuta con:
+y se ejecuta con:
 
 mvn spring-boot:run -Pdev
 
@@ -22,17 +20,41 @@ Para produccion compilar con:
 
 mvn compile -Pfront-prod,prod
 
-/////////////////////////////////////////////////////////////////
-
 y ejecutar con:
 
 mvn spring-boot:run -Pprod
 
 /////////////////////////////////////////////////////////////////
 
-Para limpiar y dejar solamente los fuentes con:
+Para contenedor y apache externo compilar con:
+
+mvn compile -Pfront-container,container
+
+/////////////////////////////////////////////////////////////////
+
+Para contenedor en produccion y apache externo compilar con:
+
+mvn compile -Pfront-container-prod,container-prod
+
+/////////////////////////////////////////////////////////////////
+
+Para dockerize con:
+
+docker build . -t container
+
+docker run -p 80:8080 container
+
+/////////////////////////////////////////////////////////////////
+
+Para limpiar el front
 
 mvn clean -Pclean-front
+
+/////////////////////////////////////////////////////////////////
+
+Para limpiar el back
+
+mvn clean -Pdev
 
 /////////////////////////////////////////////////////////////////
 

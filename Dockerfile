@@ -19,7 +19,7 @@ RUN apt install tomcat10 -y
 RUN echo "spring.profiles.active=container-prod" >> /var/lib/tomcat10/conf/catalina.properties
 
 COPY lib/libtcnative-2.so /usr/lib
-COPY target/springbootangulardev.war /var/lib/tomcat10/webapps/
+COPY target/springbootangular.war /var/lib/tomcat10/webapps/
 
 ENV CATALINA_HOME /usr/share/tomcat10
 ENV CATALINA_BASE /var/lib/tomcat10
