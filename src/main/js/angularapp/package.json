@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "sonar": "sonar-scanner",
-    "prod": "ng build --configuration production"
+    "prod": "ng build --configuration production",
+    "container": "ng build --configuration container",
+    "container-prod": "ng build --configuration container-production"
   },
   "private": true,
   "dependencies": {

@@ -1,42 +1,47 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org</groupId>
-  <artifactId>springboot-angular</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>spring-boot-angular</name>
-  <packaging>jar</packaging>
-  
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.0</version>
-  </parent>
-  
-  <properties>
-	  <resources.dir>${project.basedir}/src/main/resources</resources.dir>
-	  <resources.dir.dev>${project.basedir}/src/main/resources-dev</resources.dir.dev>
-	  <resources.dir.prod>${project.basedir}/src/main/resources-prod</resources.dir.prod>
-	  <frontend.src.dir>${project.basedir}/src/main/js/angularapp</frontend.src.dir>
-	  <frontend.dist.dir>${project.basedir}/src/main/js/angularapp/dist</frontend.dist.dir>
-	  <java.version>17</java.version>
-	  <node.version>v20.2.0</node.version>
-	  <frontend.app.name>angularfront</frontend.app.name>
-	  <frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
-	  <frontend.app.base.href.prod>/angularapp/</frontend.app.base.href.prod>
-	  <sonar.host.url>http://localhost:9000</sonar.host.url>
-	  <sonar.token>sqa_35a0e91883557bd596c441f96626147fffda0e0e</sonar.token>
-  </properties>
-  
-  	<profiles>
-	    <profile>
-	        <id>default</id>
-	        <properties>
-	            <spring.profiles.active>dev</spring.profiles.active>
-	        </properties>
-	        <activation>
-	            <activeByDefault>true</activeByDefault>
-	        </activation>
-	        <build>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org</groupId>
+	<artifactId>springboot-angular</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot-angular</name>
+	<packaging>war</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.0</version>
+	</parent>
+
+	<properties>
+		<resources.dir>${project.basedir}/src/main/resources</resources.dir>
+		<resources.dir.dev>${project.basedir}/src/main/resources-dev</resources.dir.dev>
+		<resources.dir.prod>${project.basedir}/src/main/resources-prod</resources.dir.prod>
+		<resources.dir.container>${project.basedir}/src/main/resources-container</resources.dir.container>
+		<resources.dir.container.prod>${project.basedir}/src/main/resources-container-prod</resources.dir.container.prod>
+		<frontend.src.dir>${project.basedir}/src/main/js/angularapp</frontend.src.dir>
+		<frontend.dist.dir>${project.basedir}/src/main/js/angularapp/dist</frontend.dist.dir>
+		<java.version>17</java.version>
+		<node.version>v20.2.0</node.version>
+		<final.name>springbootangulardev</final.name>
+		<frontend.app.name>angularfront</frontend.app.name>
+		<frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
+		<frontend.app.base.href.prod>/angularapp/</frontend.app.base.href.prod>
+		<frontend.app.base.href.container>/${final.name}/angularapp-dev/</frontend.app.base.href.container>
+		<frontend.app.base.href.container.prod>/${final.name}/angularapp/</frontend.app.base.href.container.prod>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.token>sqa_35a0e91883557bd596c441f96626147fffda0e0e</sonar.token>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
 				<resources>
 					<resource>
 						<directory>${resources.dir}</directory>
@@ -49,9 +54,9 @@
 				</resources>
 				<plugins>
 					<plugin>
-			            <groupId>org.apache.maven.plugins</groupId>
-			            <artifactId>maven-clean-plugin</artifactId>
-			            <executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>clean-java</id>
 								<phase>initialize</phase>
@@ -60,15 +65,15 @@
 								</goals>
 								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
+									<filesets>
+										<fileset>
 											<directory>${project.basedir}/target</directory>
-				                            <includes>
+											<includes>
 												<include>**/*.properties</include>
 												<include>**/*.xml</include>
 											</includes>
-				                        </fileset>
-						    		</filesets>
+										</fileset>
+									</filesets>
 								</configuration>
 							</execution>
 							<execution>
@@ -79,81 +84,91 @@
 								</goals>
 								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
+									<filesets>
+										<fileset>
 											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-				                            <includes>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-				                        <fileset>
+										</fileset>
+										<fileset>
 											<directory>${project.basedir}/target/classes/static</directory>
-				                            <includes>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-						    		</filesets>
+										</fileset>
+									</filesets>
 								</configuration>
 							</execution>
 						</executions>
-			        </plugin>
+					</plugin>
 					<plugin>
-				        <artifactId>maven-compiler-plugin</artifactId>
-				        <executions>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>default-compile</id>
 								<phase>compile</phase>
 								<goals>
 									<goal>compile</goal>
 								</goals>
-						        <configuration>
+								<configuration>
 									<useIncrementalCompilation>false</useIncrementalCompilation>
-						            <source>${java.version}</source>
-						            <target>${java.version}</target>
-						        </configuration>
+									<source>${java.version}</source>
+									<target>${java.version}</target>
+								</configuration>
 							</execution>
 						</executions>
-				    </plugin>
+					</plugin>
 					<plugin>
-		                <groupId>com.github.eirslett</groupId>
-		                <artifactId>frontend-maven-plugin</artifactId>
-		                <version>1.12.1</version>
-		                <configuration>
-		                    <nodeVersion>${node.version}</nodeVersion>
-		                    <installDirectory>${frontend.src.dir}</installDirectory>
-		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
-		                </configuration>
-		                <executions>
-		                   <execution>
-		                        <id>install-npm</id>
-		                        <goals>
-		                            <goal>install-node-and-npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-install</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                        <configuration>
-					              <arguments>install</arguments>
-					              <installDirectory>${frontend.src.dir}</installDirectory>
-					            </configuration>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-build</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                        <configuration>
-		                            <arguments>run-script build -- --base-href ${frontend.app.base.href}</arguments>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-		            </plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<profiles>
+								<profile>${spring.profiles.active}</profile>
+							</profiles>
+							<mainClass>org.springbootangular.app.ApplicationEmbedded</mainClass>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install-npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>initialize</phase>
+							</execution>
+							<execution>
+								<id>npm-install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>install</arguments>
+									<installDirectory>${frontend.src.dir}</installDirectory>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm-build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>run-script build -- --base-href ${frontend.app.base.href}</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -177,13 +192,13 @@
 					</plugin>
 				</plugins>
 			</build>
-	    </profile>
-	    <profile>
-	        <id>dev</id>
-	        <properties>
-	            <spring.profiles.active>dev</spring.profiles.active>
-	        </properties>
-	        <build>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+			<build>
 				<resources>
 					<resource>
 						<directory>${resources.dir}</directory>
@@ -196,9 +211,9 @@
 				</resources>
 				<plugins>
 					<plugin>
-			            <groupId>org.apache.maven.plugins</groupId>
-			            <artifactId>maven-clean-plugin</artifactId>
-			            <executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>clean-java</id>
 								<phase>initialize</phase>
@@ -207,45 +222,55 @@
 								</goals>
 								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
+									<filesets>
+										<fileset>
 											<directory>${project.basedir}/target</directory>
-				                            <includes>
+											<includes>
 												<include>**/*.properties</include>
 												<include>**/*.xml</include>
 											</includes>
-				                        </fileset>
-						    		</filesets>
+										</fileset>
+									</filesets>
 								</configuration>
 							</execution>
 						</executions>
-			        </plugin>
+					</plugin>
 					<plugin>
-				        <artifactId>maven-compiler-plugin</artifactId>
-				        <executions>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>default-compile</id>
 								<phase>compile</phase>
 								<goals>
 									<goal>compile</goal>
 								</goals>
-						        <configuration>
+								<configuration>
 									<useIncrementalCompilation>false</useIncrementalCompilation>
-						            <source>${java.version}</source>
-						            <target>${java.version}</target>
-						        </configuration>
+									<source>${java.version}</source>
+									<target>${java.version}</target>
+								</configuration>
 							</execution>
 						</executions>
-				    </plugin>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<profiles>
+								<profile>${spring.profiles.active}</profile>
+							</profiles>
+							<mainClass>org.springbootangular.app.ApplicationEmbedded</mainClass>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
-	    </profile>
-	    <profile>
-	        <id>prod</id>
-	        <properties>
-	            <spring.profiles.active>prod</spring.profiles.active>
-	        </properties>
-	        <build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+			<build>
 				<resources>
 					<resource>
 						<directory>${resources.dir}</directory>
@@ -258,9 +283,9 @@
 				</resources>
 				<plugins>
 					<plugin>
-			            <groupId>org.apache.maven.plugins</groupId>
-			            <artifactId>maven-clean-plugin</artifactId>
-			            <executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>clean-java</id>
 								<phase>initialize</phase>
@@ -269,26 +294,26 @@
 								</goals>
 								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
+									<filesets>
+										<fileset>
 											<directory>${project.basedir}/target/classes</directory>
-				                            <includes>
+											<includes>
 												<include>**/*.properties</include>
 												<include>**/*.xml</include>
 												<include>**/dev/**</include>
 											</includes>
-				                        </fileset>
-				                        <fileset>
+										</fileset>
+										<fileset>
 											<directory>${project.basedir}/target/test-classes</directory>
-				                            <includes>
+											<includes>
 												<include>**/*</include>
 											</includes>
-				                        </fileset>
-						    		</filesets>
+										</fileset>
+									</filesets>
 								</configuration>
 							</execution>
 						</executions>
-			        </plugin>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -306,48 +331,237 @@
 						</executions>
 					</plugin>
 					<plugin>
-				        <artifactId>maven-compiler-plugin</artifactId>
-				        <executions>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>default-compile</id>
 								<phase>compile</phase>
 								<goals>
 									<goal>compile</goal>
 								</goals>
-						        <configuration>
+								<configuration>
 									<useIncrementalCompilation>false</useIncrementalCompilation>
-						            <source>${java.version}</source>
-						            <target>${java.version}</target>
-						            <excludes>
+									<source>${java.version}</source>
+									<target>${java.version}</target>
+									<excludes>
 										<exclude>**/dev/**</exclude>
 									</excludes>
-						        </configuration>
+								</configuration>
 							</execution>
 							<execution>
-						      <id>default-testCompile</id>
-						      <phase>test-compile</phase>
-						      <configuration>
-						        <testExcludes>
-						          <exclude>**/*Test.java</exclude>
-						        </testExcludes>
-						      </configuration> 
-						      <goals>
-						        <goal>testCompile</goal>
-						      </goals>
-						    </execution>
+								<id>default-testCompile</id>
+								<phase>test-compile</phase>
+								<configuration>
+									<testExcludes>
+										<exclude>**/*Test.java</exclude>
+									</testExcludes>
+								</configuration>
+								<goals>
+									<goal>testCompile</goal>
+								</goals>
+							</execution>
 						</executions>
-				    </plugin>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<profiles>
+								<profile>${spring.profiles.active}</profile>
+							</profiles>
+							<mainClass>org.springbootangular.app.ApplicationEmbedded</mainClass>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
-	    </profile>
-	    <profile>
-			<id>front</id>
+		</profile>
+		<profile>
+			<id>container</id>
+			<properties>
+				<spring.profiles.active>container</spring.profiles.active>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
 			<build>
-            	<plugins>
+				<resources>
+					<resource>
+						<directory>${resources.dir}</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>${resources.dir.container}</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+				<plugins>
 					<plugin>
-			            <groupId>org.apache.maven.plugins</groupId>
-			            <artifactId>maven-clean-plugin</artifactId>
-			            <executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>clean-java</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<directory>${project.basedir}/target</directory>
+											<includes>
+												<include>**/*.properties</include>
+												<include>**/*.xml</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>default-compile</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+								<configuration>
+									<useIncrementalCompilation>false</useIncrementalCompilation>
+									<source>${java.version}</source>
+									<target>${java.version}</target>
+									<excludes>
+										<exclude>**/*Embedded*</exclude>
+									</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>container-prod</id>
+			<properties>
+				<spring.profiles.active>container-prod</spring.profiles.active>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<resources>
+					<resource>
+						<directory>${resources.dir}</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>${resources.dir.container.prod}</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>clean-java</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<directory>${project.basedir}/target/classes</directory>
+											<includes>
+												<include>**/*.properties</include>
+												<include>**/*.xml</include>
+												<include>**/dev/**</include>
+											</includes>
+										</fileset>
+										<fileset>
+											<directory>${project.basedir}/target/test-classes</directory>
+											<includes>
+												<include>**/*</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>default-testResources</id>
+								<phase>test</phase>
+								<goals>
+									<goal>testResources</goal>
+								</goals>
+								<configuration>
+									<skip>true</skip>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>default-compile</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+								<configuration>
+									<useIncrementalCompilation>false</useIncrementalCompilation>
+									<source>${java.version}</source>
+									<target>${java.version}</target>
+									<excludes>
+										<exclude>**/*Embedded*</exclude>
+									</excludes>
+								</configuration>
+							</execution>
+							<execution>
+								<id>default-testCompile</id>
+								<phase>test-compile</phase>
+								<configuration>
+									<testExcludes>
+										<exclude>**/*Test.java</exclude>
+									</testExcludes>
+								</configuration>
+								<goals>
+									<goal>testCompile</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>front-dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>clean-front</id>
 								<phase>initialize</phase>
@@ -356,64 +570,70 @@
 								</goals>
 								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
+									<filesets>
+										<fileset>
 											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-				                            <includes>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-				                        <fileset>
+										</fileset>
+										<fileset>
 											<directory>${project.basedir}/target/classes/static</directory>
-				                            <includes>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-						    		</filesets>
+										</fileset>
+									</filesets>
 								</configuration>
 							</execution>
 						</executions>
-			        </plugin>
+					</plugin>
 					<plugin>
-		                <groupId>com.github.eirslett</groupId>
-		                <artifactId>frontend-maven-plugin</artifactId>
-		                <version>1.12.1</version>
-		                <configuration>
-		                    <nodeVersion>${node.version}</nodeVersion>
-		                    <installDirectory>${frontend.src.dir}</installDirectory>
-		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
-		                </configuration>
-		                <executions>
-		                   <execution>
-		                        <id>install-npm</id>
-		                        <goals>
-		                            <goal>install-node-and-npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-install</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                        <configuration>
-					              <arguments>install</arguments>
-					              <installDirectory>${frontend.src.dir}</installDirectory>
-					            </configuration>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-build</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                        <configuration>
-		                            <arguments>run-script build -- --base-href ${frontend.app.base.href}</arguments>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-		            </plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install-npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>initialize</phase>
+							</execution>
+							<execution>
+								<id>npm-install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>install</arguments>
+									<installDirectory>${frontend.src.dir}</installDirectory>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm-build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>run-script build -- --base-href ${frontend.app.base.href}</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -438,14 +658,14 @@
 				</plugins>
 			</build>
 		</profile>
-	    <profile>
+		<profile>
 			<id>front-prod</id>
 			<build>
-            	<plugins>
+				<plugins>
 					<plugin>
-			            <groupId>org.apache.maven.plugins</groupId>
-			            <artifactId>maven-clean-plugin</artifactId>
-			            <executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>clean-front</id>
 								<phase>initialize</phase>
@@ -454,64 +674,70 @@
 								</goals>
 								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
+									<filesets>
+										<fileset>
 											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-				                            <includes>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-				                        <fileset>
+										</fileset>
+										<fileset>
 											<directory>${project.basedir}/target/classes/static</directory>
-				                            <includes>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-						    		</filesets>
+										</fileset>
+									</filesets>
 								</configuration>
 							</execution>
 						</executions>
-			        </plugin>
+					</plugin>
 					<plugin>
-		                <groupId>com.github.eirslett</groupId>
-		                <artifactId>frontend-maven-plugin</artifactId>
-		                <version>1.12.1</version>
-		                <configuration>
-		                    <nodeVersion>${node.version}</nodeVersion>
-		                    <installDirectory>${frontend.src.dir}</installDirectory>
-		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
-		                </configuration>
-		                <executions>
-		                   <execution>
-		                        <id>install-npm</id>
-		                        <goals>
-		                            <goal>install-node-and-npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-install</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                        <configuration>
-					              <arguments>install</arguments>
-					              <installDirectory>${frontend.src.dir}</installDirectory>
-					            </configuration>
-		                    </execution>
-		                    <execution>
-		                        <id>npm-build</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>initialize</phase>
-		                        <configuration>
-		                            <arguments>run-script prod -- --base-href ${frontend.app.base.href.prod}</arguments>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-		            </plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install-npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>initialize</phase>
+							</execution>
+							<execution>
+								<id>npm-install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>install</arguments>
+									<installDirectory>${frontend.src.dir}</installDirectory>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm-build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>run-script prod -- --base-href ${frontend.app.base.href.prod}</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -536,120 +762,328 @@
 				</plugins>
 			</build>
 		</profile>
-	    <profile>
+		<profile>
+			<id>front-container</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>clean-front</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+											<includes>
+												<include>**</include>
+											</includes>
+										</fileset>
+										<fileset>
+											<directory>${project.basedir}/target/classes/static</directory>
+											<includes>
+												<include>**</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install-npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>initialize</phase>
+							</execution>
+							<execution>
+								<id>npm-install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>install</arguments>
+									<installDirectory>${frontend.src.dir}</installDirectory>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm-build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>run-script container -- --base-href ${frontend.app.base.href.container}</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>prepare-dist</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/target/classes</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>front-container-prod</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>clean-front</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+											<includes>
+												<include>**</include>
+											</includes>
+										</fileset>
+										<fileset>
+											<directory>${project.basedir}/target/classes/static</directory>
+											<includes>
+												<include>**</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install-npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>initialize</phase>
+							</execution>
+							<execution>
+								<id>npm-install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>install</arguments>
+									<installDirectory>${frontend.src.dir}</installDirectory>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm-build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<arguments>run-script container-prod -- --base-href ${frontend.app.base.href.container.prod}</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>prepare-dist</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/target/classes</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>clean-front</id>
 			<build>
 				<plugins>
 					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-clean-plugin</artifactId>
-		                <executions>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>clean-front</id>
 								<phase>clean</phase>
 								<goals>
 									<goal>clean</goal>
 								</goals>
-				                <configuration>
+								<configuration>
 									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-				                    <filesets>
-				                        <fileset>
-				                            <directory>${frontend.src.dir}/node</directory>
-				                            <includes>
+									<filesets>
+										<fileset>
+											<directory>${frontend.src.dir}/node</directory>
+											<includes>
 												<include>**</include>
 											</includes>
-				                        </fileset>
-				                        <fileset>
-				                            <directory>${frontend.src.dir}/node_modules</directory>
-				                        </fileset>
-				                        <fileset>
-				                            <directory>${frontend.dist.dir}/${frontend.app.name}</directory>
-				                            <includes>
+										</fileset>
+										<fileset>
+											<directory>${frontend.src.dir}/node_modules</directory>
+										</fileset>
+										<fileset>
+											<directory>${frontend.dist.dir}/${frontend.app.name}</directory>
+											<includes>
 												<include>**/*</include>
 											</includes>
-				                        </fileset>
-				                        <fileset>
-				                            <directory>${frontend.src.dir}/.angular</directory>
-				                        </fileset>
-				                        <fileset>
-				                            <directory>${frontend.src.dir}/.scannerwork</directory>
-				                        </fileset>
-						    		</filesets>
-				                </configuration>
+										</fileset>
+										<fileset>
+											<directory>${frontend.src.dir}/.angular</directory>
+										</fileset>
+										<fileset>
+											<directory>${frontend.src.dir}/.scannerwork</directory>
+										</fileset>
+									</filesets>
+								</configuration>
 							</execution>
-		                </executions>
-		            </plugin>					
-				</plugins>				
-			</build>
-	    </profile>
-		<profile>
-	        <id>test</id>
-			<properties>
-	            <spring.profiles.active>dev</spring.profiles.active>
-	        </properties>	        
-	        <build>
-				<plugins>
-					<plugin>
-		                <groupId>com.github.eirslett</groupId>
-		                <artifactId>frontend-maven-plugin</artifactId>
-		                <version>1.12.1</version>
-		                <configuration>
-		                    <nodeVersion>${node.version}</nodeVersion>
-		                    <installDirectory>${frontend.src.dir}</installDirectory>
-		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
-		                </configuration>
-		                <executions>
-		                    <execution>
-		                        <id>npm-test</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>test</phase>
-		                        <configuration>
-		                            <arguments>run-script test -- --watch=false</arguments>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-		            </plugin>
-					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-						<version>3.1.0</version><!--$NO-MVN-MAN-VER$-->	
-						<configuration>
-					        <skip>false</skip>
-					        <argLine>-Dspring.profiles.active=${spring.profiles.active}</argLine>
-					    </configuration>
-		            </plugin>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
-	    </profile>
-	    <profile>
-	        <id>sonar</id>
-	        <build>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+			<build>
 				<plugins>
 					<plugin>
-		                <groupId>com.github.eirslett</groupId>
-		                <artifactId>frontend-maven-plugin</artifactId>
-		                <version>1.12.1</version>
-		                <configuration>
-		                    <nodeVersion>${node.version}</nodeVersion>
-		                    <installDirectory>${frontend.src.dir}</installDirectory>
-		                    <workingDirectory>${frontend.src.dir}</workingDirectory>
-		                </configuration>
-		                <executions>
-		                    <execution>
-		                        <id>npm-sonar</id>
-		                        <goals>
-		                            <goal>npm</goal>
-		                        </goals>
-		                        <phase>validate</phase>
-		                        <configuration>
-		                            <arguments>run-script sonar</arguments>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-		            </plugin>
-		            <plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>npm-test</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>test</phase>
+								<configuration>
+									<arguments>run-script test -- --watch=false</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.1.0</version><!--$NO-MVN-MAN-VER$ -->
+						<configuration>
+							<skip>false</skip>
+							<argLine>-Dspring.profiles.active=${spring.profiles.active}</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>sonar</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<installDirectory>${frontend.src.dir}</installDirectory>
+							<workingDirectory>${frontend.src.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>npm-sonar</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>validate</phase>
+								<configuration>
+									<arguments>run-script sonar</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
 						<groupId>org.sonarsource.scanner.maven</groupId>
 						<artifactId>sonar-maven-plugin</artifactId>
 						<version>3.9.1.2184</version>
@@ -667,59 +1101,59 @@
 			</build>
 		</profile>
 	</profiles>
-  
-	<dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-		<dependency>
-		    <groupId>org.projectlombok</groupId>
-		    <artifactId>lombok</artifactId>
-		</dependency>        
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-		<dependency>
-		   <groupId>org.junit.vintage</groupId>
-		   <artifactId>junit-vintage-engine</artifactId>
-		   <scope>test</scope>
-		   <exclusions>
-		      <exclusion>
-		         <groupId>org.hamcrest</groupId>
-		         <artifactId>hamcrest-core</artifactId>
-		      </exclusion>
-		   </exclusions>
-		</dependency>        
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency> 
-    </dependencies>
 
-    <build>
-		<finalName>springbootangulardev</finalName>
-        <plugins>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${final.name}</finalName>
+		<plugins>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<executions>
 					<execution>
 						<id>default-clean</id>
 						<phase>clean</phase>
@@ -728,14 +1162,17 @@
 						</goals>
 						<configuration>
 							<excludeDefaultDirectories>true</excludeDefaultDirectories>
-		                    <filesets>
-		                        <fileset>
+							<filesets>
+								<fileset>
 									<directory>${project.basedir}/target</directory>
-		                            <includes>
-										<include>**</include>
+									<includes>
+										<include>**/*</include>
 									</includes>
-		                        </fileset>
-				    		</filesets>
+									<excludes>
+										<exclude>classes/static/**</exclude>
+									</excludes>
+								</fileset>
+							</filesets>
 						</configuration>
 					</execution>
 					<execution>
@@ -746,46 +1183,69 @@
 						</goals>
 						<configuration>
 							<excludeDefaultDirectories>true</excludeDefaultDirectories>
-		                    <filesets>
-		                        <fileset>
+							<filesets>
+								<fileset>
 									<directory>${project.basedir}/logs</directory>
-		                            <includes>
+									<includes>
 										<include>*</include>
 									</includes>
-		                        </fileset>
-				    		</filesets>
+								</fileset>
+							</filesets>
 						</configuration>
 					</execution>
 				</executions>
-            </plugin>
+			</plugin>
+			<plugin>            
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-war-plugin</artifactId>
+			  <configuration>
+			    <failOnMissingWebXml>false</failOnMissingWebXml>
+			  </configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-				  <archive>
-					<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-				  </archive>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<profiles>
-		            	<profile>${spring.profiles.active}</profile>
-		            </profiles>
-            		<mainClass>org.springbootangular.app.Application</mainClass>
-        		</configuration>                
-            </plugin>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-			        <skip>true</skip>
-			    </configuration>
-            </plugin>
-        </plugins>
-    </build>
-  
-  
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-clean-plugin
+										</artifactId>
+										<versionRange>
+											[3.2.0,)
+										</versionRange>
+										<goals>
+											<goal>clean</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+
 </project>
