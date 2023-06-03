@@ -744,8 +744,6 @@
 			  <configuration>
 			    <failOnMissingWebXml>false</failOnMissingWebXml>
 			    <includeEmptyDirectories>false</includeEmptyDirectories>
-			    <warSourceExcludes>META-INF/**</warSourceExcludes>
-			    <packagingExcludes>META-INF/**</packagingExcludes>
 			    <archive>
 					<addMavenDescriptor>false</addMavenDescriptor>
 			    </archive>
