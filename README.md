@@ -11,7 +11,9 @@ Se puede usar docker para tener la aplicacion en un container
 Para development:
 
 mvn compile -Pfront-dev
+
 mvn package -Pdev
+
 mvn spring-boot:run -Pdev
 
 /////////////////////////////////////////////////////////////////
@@ -19,7 +21,9 @@ mvn spring-boot:run -Pdev
 Para produccion:
 
 mvn compile -Pfront-prod
+
 mvn package -Pprod
+
 mvn spring-boot:run -Pprod
 
 /////////////////////////////////////////////////////////////////
@@ -27,6 +31,7 @@ mvn spring-boot:run -Pprod
 Para contenedor y apache externo:
 
 mvn compile -Pfront-container
+
 mvn package -Pcontainer
 
 /////////////////////////////////////////////////////////////////
@@ -34,6 +39,7 @@ mvn package -Pcontainer
 Para contenedor en produccion y apache externo:
 
 mvn compile -Pfront-container-prod
+
 mvn package -Pcontainer-prod
 
 /////////////////////////////////////////////////////////////////
@@ -41,6 +47,7 @@ mvn package -Pcontainer-prod
 Para dockerize y compilar desde container con:
 
 docker build . -t container
+
 docker run -p 80:8080 container
 
 /////////////////////////////////////////////////////////////////
