@@ -46,7 +46,7 @@ RUN rm /home/tomcat-native -fr
 RUN mkdir /home/webapps/
 WORKDIR /home/webapps/
 
-RUN apt install maven git unzip -y
+RUN apt install maven git unzip zip -y
 
 RUN git clone https://github.com/jmedina2099/springbootangular2.git
 WORKDIR springbootangular2
