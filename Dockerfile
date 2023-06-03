@@ -51,9 +51,27 @@ RUN apt install maven git unzip zip -y
 RUN git clone https://github.com/jmedina2099/springbootangular2.git
 WORKDIR springbootangular2
 
-RUN mvn package
-RUN zip -d target/springbootangular.war "META-INF/*"
-RUN cp target/springbootangular.war $WEBAPPS_BASE
+RUN mvn package -Dskip.shade=false
+
+RUN mkdir tmp
+RUN unzip springbootangular.war -d tmp
+WORKDIR tmp
+RUN rm META-INF/ -fr
+RUN mv * WEB-INF/classes/
+WORKDIR org
+RUN mv * ../WEB-INF/classes/org/
+WORKDIR ..
+RUN rmdir org
+WORKDIR WEB-INF/lib
+RUN mv spring-* ..
+RUN mv logback-c* ..
+RUN rm *
+RUN mv ../*.jar .
+WORKDIR ../..
+RUN jar -cf springbootangular.war *
+
+RUN zip -d springbootangular.war "META-INF/*"
+RUN cp springbootangular.war $WEBAPPS_BASE
 RUN rm /home/webapps -fr
 
 WORKDIR $WEBAPPS_BASE
