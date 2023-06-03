@@ -35,6 +35,7 @@
               "buildOptimizer": true,
               "optimization": true,
               "aot": true,
+              "extractLicenses": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -60,6 +61,7 @@
               "buildOptimizer": true,
               "optimization": true,
               "aot": true,
+              "extractLicenses": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

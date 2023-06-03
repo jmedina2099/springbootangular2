@@ -731,6 +731,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<skip>${skip.embedded}</skip>
 					<profiles>
 						<profile>${spring.profiles.active}</profile>
 					</profiles>
@@ -742,6 +743,12 @@
 			  <artifactId>maven-war-plugin</artifactId>
 			  <configuration>
 			    <failOnMissingWebXml>false</failOnMissingWebXml>
+			    <includeEmptyDirectories>false</includeEmptyDirectories>
+			    <warSourceExcludes>META-INF/**</warSourceExcludes>
+			    <packagingExcludes>META-INF/**</packagingExcludes>
+			    <archive>
+					<addMavenDescriptor>false</addMavenDescriptor>
+			    </archive>
 			  </configuration>
 			</plugin>
 			<plugin>

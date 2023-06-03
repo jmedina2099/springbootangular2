@@ -36,6 +36,8 @@ RUN tar xzvf tomcat-native-2.0.4-src.tar.gz
 WORKDIR tomcat-native-2.0.4-src/native
 RUN ./configure --with-apr=/usr/bin --with-ssl=/usr && make
 RUN cp .libs/libtcnative-2.so.0.0.4 /usr/lib/libtcnative-2.so
+WORKDIR /home
+RUN rm /home/tomcat-native -fr
 
 ###################################################################
 # COPY target/springbootangular.war /var/lib/tomcat10/webapps/
@@ -50,10 +52,13 @@ RUN git clone https://github.com/jmedina2099/springbootangular2.git
 WORKDIR springbootangular2
 
 RUN mvn package
+RUN zip -d target/springbootangular.war "META-INF/*"
 RUN cp target/springbootangular.war $WEBAPPS_BASE
+RUN rm /home/webapps -fr
 
 WORKDIR $WEBAPPS_BASE
 RUN unzip springbootangular.war -d springbootangular
+RUN rm springbootangular.war
 
 ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=container-prod"
 
