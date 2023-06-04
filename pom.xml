@@ -36,7 +36,7 @@
 				<skip.embedded>true</skip.embedded>
 				<skip.container>false</skip.container>
 				<build.configuration>container-prod</build.configuration>
-				<skip.shade>true</skip.shade>
+				<skip.shade>false</skip.shade>
 				<skip.test>true</skip.test>
 			</properties>
 			<activation>
@@ -989,6 +989,7 @@
 						</goals>
 						<phase>test</phase>
 						<configuration>
+							<skip>${skip.test}</skip>
 							<arguments>run-script test -- --watch=false</arguments>
 						</configuration>
 					</execution>

@@ -46,17 +46,13 @@ RUN rm /home/tomcat-native -fr
 RUN mkdir /home/webapps/
 WORKDIR /home/webapps/
 
-RUN apt install unzip zip git maven -y
+RUN apt install unzip zip maven git -y
 
 RUN git clone https://github.com/jmedina2099/springbootangular2.git
 WORKDIR springbootangular2
 
 RUN mvn package
-
-###################################################################
-# RUN mvn package -Dskip.shade=false
-# RUN ./processShadeWar.sh springbootangular.war
-###################################################################
+RUN ./processShadeWar.sh springbootangular.war
 
 RUN cp target/springbootangular.war $WEBAPPS_BASE
 RUN rm /home/webapps -fr

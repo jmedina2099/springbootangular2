@@ -86,6 +86,7 @@ export class ListadoComponent {
         this.getListado();
       });
     }
+    this.modalService.close('modal-2');
   }
 
   clean() {

@@ -6,3 +6,4 @@ src/main/js/angularapp/dist
 src/main/js/angularapp/.angular
 src/main/js/angularapp/.scannerwork
 logs
+dependency-reduced-pom.xml
