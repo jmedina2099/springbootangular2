@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
  * @author jmedina
  *
  */
-@Profile(value = {"dev","prod"})
+@Profile(value = {"dev","qa"})
 @SpringBootApplication
 public class ApplicationEmbedded {
 

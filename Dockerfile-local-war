@@ -39,29 +39,15 @@ RUN cp .libs/libtcnative-2.so.0.0.4 /usr/lib/libtcnative-2.so
 WORKDIR /home
 RUN rm /home/tomcat-native -fr
 
-###################################################################
-# COPY target/springbootangular.war /var/lib/tomcat10/webapps/
-###################################################################
+COPY target/springbootangular.war $WEBAPPS_BASE
 
-RUN mkdir /home/webapps/
-WORKDIR /home/webapps/
-
-RUN apt install zip maven git unzip -y
-
-RUN git clone https://github.com/jmedina2099/springbootangular2.git
-WORKDIR springbootangular2
-
-RUN mvn package -Pprod
-RUN ./processShadeWar.sh springbootangular.war
-
-RUN cp target/springbootangular.war $WEBAPPS_BASE
-RUN rm /home/webapps -fr
+RUN apt install unzip -y
 
 WORKDIR $WEBAPPS_BASE
 RUN unzip springbootangular.war -d springbootangular
 RUN rm springbootangular.war
 
-ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=container-prod"
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=prod"
 
 RUN echo "<meta http-equiv='refresh' content='0;url=/springbootangular'/>" > /var/lib/tomcat10/webapps/ROOT/index.html
 

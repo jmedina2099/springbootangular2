@@ -30,7 +30,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "qa": {
               "outputPath": "dist/angularfront/static/angularapp",
               "buildOptimizer": true,
               "optimization": true,
@@ -39,7 +39,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.qa.ts"
                 }
               ],
               "budgets": [
@@ -56,7 +56,7 @@
               ],
               "outputHashing": "all"
             },
-            "container-production": {
+            "production": {
               "outputPath": "dist/angularfront/static/angularapp",
               "buildOptimizer": true,
               "optimization": true,
@@ -65,7 +65,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.container.prod.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "budgets": [

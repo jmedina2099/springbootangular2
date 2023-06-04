@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiKey: 'prodKey',
+    apiKey: 'containerProdKey',
     contextPath: 'angularapp',
-    backEndUrl: 'http://localhost:8080/'
+    backEndUrl: 'http://localhost/springbootangular/'
 };

@@ -66,7 +66,7 @@ mvn clean -Pdev
 
 Para correr las pruebas unitarias:
 
-mvn package -Ptest
+mvn test -Ptest
 
 /////////////////////////////////////////////////////////////////
 

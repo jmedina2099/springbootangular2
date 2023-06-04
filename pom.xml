@@ -24,9 +24,31 @@
 		<profile>
 			<id>default</id>
 			<properties>
-				<spring.profiles.active>container-prod</spring.profiles.active>
+				<spring.profiles.active>dev</spring.profiles.active>
+				<final.name>springbootangulardev</final.name>
+				<resources.dir.env>${project.basedir}/src/main/resources-dev</resources.dir.env>
+				<main.class>org.springbootangular.app.ApplicationEmbedded</main.class>
+				<frontend.app.base.href>/${final.name}/angularappdev/</frontend.app.base.href>
+				<skip.back>false</skip.back>
+				<skip.front>false</skip.front>
+				<skip.dev>false</skip.dev>
+				<skip.prod>true</skip.prod>
+				<skip.embedded>false</skip.embedded>
+				<skip.container>true</skip.container>
+				<build.configuration>build</build.configuration>
+				<skip.shade>true</skip.shade>
+				<skip.test>true</skip.test>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
 				<final.name>springbootangular</final.name>
-				<resources.dir.env>${project.basedir}/src/main/resources-container-prod</resources.dir.env>
+				<resources.dir.env>${project.basedir}/src/main/resources-prod</resources.dir.env>
 				<main.class>org.springbootangular.app.Application</main.class>
 				<frontend.app.base.href>/${final.name}/angularapp/</frontend.app.base.href>
 				<skip.back>false</skip.back>
@@ -35,13 +57,30 @@
 				<skip.prod>false</skip.prod>
 				<skip.embedded>true</skip.embedded>
 				<skip.container>false</skip.container>
-				<build.configuration>container-prod</build.configuration>
+				<build.configuration>prod</build.configuration>
 				<skip.shade>false</skip.shade>
 				<skip.test>true</skip.test>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-core</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat</groupId>
+					<artifactId>tomcat-annotations-api</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-websocket</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>dev</id>
@@ -59,11 +98,11 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>prod</id>
+			<id>qa</id>
 			<properties>
-				<spring.profiles.active>prod</spring.profiles.active>
+				<spring.profiles.active>qa</spring.profiles.active>
 				<final.name>springbootangulardev</final.name>
-				<resources.dir.env>${project.basedir}/src/main/resources-prod</resources.dir.env>
+				<resources.dir.env>${project.basedir}/src/main/resources-qa</resources.dir.env>
 				<main.class>org.springbootangular.app.ApplicationEmbedded</main.class>
 				<skip.back>false</skip.back>
 				<skip.front>true</skip.front>
@@ -109,41 +148,6 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>container-prod</id>
-			<properties>
-				<spring.profiles.active>container-prod</spring.profiles.active>
-				<final.name>springbootangular</final.name>
-				<resources.dir.env>${project.basedir}/src/main/resources-container-prod</resources.dir.env>
-				<main.class>org.springbootangular.app.Application</main.class>
-				<skip.back>false</skip.back>
-				<skip.front>true</skip.front>
-				<skip.dev>true</skip.dev>
-				<skip.prod>false</skip.prod>
-				<skip.embedded>true</skip.embedded>
-				<skip.container>false</skip.container>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.tomcat.embed</groupId>
-					<artifactId>tomcat-embed-core</artifactId>
-					<version>10.1.9</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.tomcat</groupId>
-					<artifactId>tomcat-annotations-api</artifactId>
-					<version>10.1.9</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.tomcat.embed</groupId>
-					<artifactId>tomcat-embed-websocket</artifactId>
-					<version>10.1.9</version>
-					<scope>provided</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
 			<id>front-dev</id>
 			<properties>
 				<skip.back>true</skip.back>
@@ -159,7 +163,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>front-prod</id>
+			<id>front-qa</id>
 			<properties>
 				<skip.back>true</skip.back>
 				<skip.front>false</skip.front>
@@ -168,7 +172,7 @@
 				<skip.embedded>true</skip.embedded>
 				<skip.container>true</skip.container>
 				<frontend.app.base.href>/angularapp/</frontend.app.base.href>
-				<build.configuration>prod</build.configuration>
+				<build.configuration>qa</build.configuration>
 			</properties>
 		</profile>
 		<profile>
@@ -186,7 +190,7 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>front-container-prod</id>
+			<id>front-prod</id>
 			<properties>
 				<skip.back>true</skip.back>
 				<skip.front>false</skip.front>
@@ -196,7 +200,7 @@
 				<skip.container>true</skip.container>
 				<final.name>springbootangular</final.name>
 				<frontend.app.base.href>/${final.name}/angularapp/</frontend.app.base.href>
-				<build.configuration>container-prod</build.configuration>
+				<build.configuration>prod</build.configuration>
 			</properties>
 		</profile>
 		<profile>
@@ -918,6 +922,12 @@
 									<excludes>
 										<exclude>classes/static/**</exclude>
 									</excludes>
+								</fileset>
+								<fileset>
+									<directory>${project.basedir}</directory>
+									<includes>
+										<include>dependency-reduced-pom.xml</include>
+									</includes>
 								</fileset>
 							</filesets>
 						</configuration>

@@ -8,15 +8,8 @@
 	<property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %logger : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
 	<property name="FILE_LOG_CHARSET" value="${FILE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
 
-  <springProfile name="container-prod">
-
-  	<logger name="org.jboss" level="WARN" />
-	<logger name="com.zaxxer.hikari" level="WARN"/>
-	<logger name="org.hibernate" level="WARN"/>
-	<logger name="org.springframework" level="WARN"/>
-	<logger name="_org.springframework" level="WARN" />
-
-	<property name="LOG_FILE" value="/var/log/tomcat10/spring-container-prod.log"/>
+  <springProfile name="qa">
+	<property name="LOG_FILE" value="logs/spring-prod.log"/>
 	 <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 	   <encoder>
 		<pattern>${FILE_LOG_PATTERN}</pattern>
@@ -27,13 +20,25 @@
 	     <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
 	   </rollingPolicy>
 	 </appender>
+
+	<!-- Embedded Tomcat -->
+  	<logger name="org.jboss" level="WARN" />
+  	<logger name="org.apache.catalina" level="WARN" />
+  	<logger name="org.apache.coyote" level="WARN" />
+  	<logger name="org.apache.tomcat" level="WARN" />
+
+    <logger name="org.hibernate" level="WARN" />
+  	<logger name="com.zaxxer.hikari" level="WARN" />
+    <logger name="org.springframework" level="WARN" />
+    <logger name="_org.springframework" level="WARN" />
+    
     <logger name="org.springbootangular.app" level="WARN" additivity="false">
         <appender-ref ref="FILE" />
     </logger>  	
-    <logger name="org.springbootangular.app.Application" level="INFO" additivity="false">
+    <logger name="org.springbootangular.app.ApplicationEmbedded" level="INFO" additivity="false">
         <appender-ref ref="FILE" />
     </logger>  	
-    <root level="WARN">
+    <root level="DEBUG">
       <appender-ref ref="FILE" />
     </root>
   </springProfile>

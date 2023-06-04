@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Profile;
  * @author jmedina
  *
  */
-@Profile(value = {"container","container-prod"})
+@Profile(value = {"container","prod"})
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 
