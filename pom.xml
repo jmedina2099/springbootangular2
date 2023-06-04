@@ -782,19 +782,12 @@
 			                        <artifact>*:*</artifact>
 			                        <excludes>
 			                            <exclude>module-info.class</exclude>
-			                            <exclude>*.txt</exclude>
-			                            <exclude>*.html</exclude>
-			                            <exclude>*.dtd</exclude>
-			                            <exclude>*.md</exclude>
-			                            <exclude>*.properties</exclude>
-			                            <exclude>*.lst</exclude>
-			                            <exclude>*.springboot</exclude>
-			                            <exclude>AUTHORS</exclude>
-			                            <exclude>LICENSE</exclude>
 			                            <exclude>META-INF/**</exclude>
+			                            <exclude>license.txt</exclude>
+			                            <exclude>notice.txt</exclude>
+<!--
 			                            <exclude>org/springframework/**</exclude>
 			                            <exclude>ch/**</exclude>
-<!--
 			                            <exclude>org/**</exclude>
 			                            <exclude>com/**</exclude>
 			                            <exclude>io/**</exclude>

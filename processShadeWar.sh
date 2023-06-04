@@ -30,4 +30,4 @@ mv $WAR_NAME ..
 cd ..
 rmdir tmp2
 
-echo "War is shaded!"
+echo "War is processed!"
