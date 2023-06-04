@@ -3,6 +3,7 @@
 WAR_NAME=${1:-springbootangular.war}
 
 cd target
+mkdir tmp2
 unzip $WAR_NAME -d tmp2
 
 cd tmp2

@@ -17,6 +17,7 @@
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
 		<sonar.token>sqa_35a0e91883557bd596c441f96626147fffda0e0e</sonar.token>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skip.test>true</skip.test>
 	</properties>
 
 	<profiles>
@@ -36,6 +37,7 @@
 				<skip.container>false</skip.container>
 				<build.configuration>container-prod</build.configuration>
 				<skip.shade>true</skip.shade>
+				<skip.test>true</skip.test>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -87,9 +89,21 @@
 			</properties>
 			<dependencies>
 				<dependency>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-					<version>3.1.0</version>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-core</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat</groupId>
+					<artifactId>tomcat-annotations-api</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-websocket</artifactId>
+					<version>10.1.9</version>
 					<scope>provided</scope>
 				</dependency>
 			</dependencies>
@@ -110,9 +124,21 @@
 			</properties>
 			<dependencies>
 				<dependency>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-					<version>3.1.0</version>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-core</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat</groupId>
+					<artifactId>tomcat-annotations-api</artifactId>
+					<version>10.1.9</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-websocket</artifactId>
+					<version>10.1.9</version>
 					<scope>provided</scope>
 				</dependency>
 			</dependencies>
@@ -127,7 +153,7 @@
 				<skip.embedded>true</skip.embedded>
 				<skip.container>true</skip.container>
 				<frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
-				<build.configuration>build</build.configuration>				
+				<build.configuration>build</build.configuration>
 			</properties>
 			<build>
 			</build>
@@ -142,7 +168,7 @@
 				<skip.embedded>true</skip.embedded>
 				<skip.container>true</skip.container>
 				<frontend.app.base.href>/angularapp/</frontend.app.base.href>
-				<build.configuration>prod</build.configuration>				
+				<build.configuration>prod</build.configuration>
 			</properties>
 		</profile>
 		<profile>
@@ -154,9 +180,9 @@
 				<skip.prod>true</skip.prod>
 				<skip.embedded>true</skip.embedded>
 				<skip.container>true</skip.container>
-				<final.name>springbootangulardev</final.name>				
+				<final.name>springbootangulardev</final.name>
 				<frontend.app.base.href>/${final.name}/angularapp-dev/</frontend.app.base.href>
-				<build.configuration>container</build.configuration>				
+				<build.configuration>container</build.configuration>
 			</properties>
 		</profile>
 		<profile>
@@ -170,7 +196,7 @@
 				<skip.container>true</skip.container>
 				<final.name>springbootangular</final.name>
 				<frontend.app.base.href>/${final.name}/angularapp/</frontend.app.base.href>
-				<build.configuration>container-prod</build.configuration>				
+				<build.configuration>container-prod</build.configuration>
 			</properties>
 		</profile>
 		<profile>
@@ -228,42 +254,13 @@
 			<id>test</id>
 			<properties>
 				<spring.profiles.active>dev</spring.profiles.active>
+				<resources.dir.env>${project.basedir}/src/main/resources-dev</resources.dir.env>
+				<frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
+				<build.configuration>build</build.configuration>
+				<skip.back>false</skip.back>
+				<skip.front>false</skip.front>
+				<skip.test>false</skip.test>
 			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.github.eirslett</groupId>
-						<artifactId>frontend-maven-plugin</artifactId>
-						<version>1.12.1</version>
-						<configuration>
-							<nodeVersion>${node.version}</nodeVersion>
-							<installDirectory>${frontend.src.dir}</installDirectory>
-							<workingDirectory>${frontend.src.dir}</workingDirectory>
-						</configuration>
-						<executions>
-							<execution>
-								<id>npm-test</id>
-								<goals>
-									<goal>npm</goal>
-								</goals>
-								<phase>test</phase>
-								<configuration>
-									<arguments>run-script test -- --watch=false</arguments>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>3.1.0</version><!--$NO-MVN-MAN-VER$ -->
-						<configuration>
-							<skip>false</skip>
-							<argLine>-Dspring.profiles.active=${spring.profiles.active}</argLine>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 		<profile>
 			<id>sonar</id>
@@ -309,60 +306,472 @@
 			</build>
 		</profile>
 	</profiles>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-validation</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.26</version>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.1.214</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <version>3.1.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>5.9.3</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>hamcrest-core</artifactId>
-          <groupId>org.hamcrest</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <version>3.1.0</version>
-      <optional>true</optional>
-    </dependency>
-  </dependencies>
-
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.19</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>5.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.2.2.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.transaction</groupId>
+			<artifactId>jakarta.transaction-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.5.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.common</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>6.0.6.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.smallrye</groupId>
+			<artifactId>jandex</artifactId>
+			<version>3.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml</groupId>
+			<artifactId>classmate</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<version>1.12.18</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-activation</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>txw2</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.istack</groupId>
+			<artifactId>istack-commons-runtime</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-to-slf4j</artifactId>
+			<version>2.20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.33</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-parameter-names</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-observation</artifactId>
+			<version>1.10.7</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-commons</artifactId>
+			<version>1.10.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-el</artifactId>
+			<version>10.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>10.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-annotations-api</artifactId>
+			<version>10.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-websocket</artifactId>
+			<version>10.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>8.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.1.214</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.activation</groupId>
+			<artifactId>jakarta.activation-api</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jcl</artifactId>
+			<version>6.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>3.1.0</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<!-- TEST DEPENDENCIES -->
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>accessors-smart</artifactId>
+			<version>2.4.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-core</artifactId>
+			<version>2.9.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
+			<version>1.14.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-commons</artifactId>
+			<version>1.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test-autoconfigure</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+			<version>2.4.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.24.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>3.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin.external.google</groupId>
+			<artifactId>android-json</artifactId>
+			<version>0.0.20131108.vaadin1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>6.0.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>5.9.3</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>hamcrest-core</artifactId>
+					<groupId>org.hamcrest</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-engine</artifactId>
+			<version>1.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.opentest4j</groupId>
+			<artifactId>opentest4j</artifactId>
+			<version>1.2.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apiguardian</groupId>
+			<artifactId>apiguardian-api</artifactId>
+			<version>1.1.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<finalName>${final.name}</finalName>
 		<plugins>
@@ -573,6 +982,16 @@
 							<arguments>run-script ${build.configuration} -- --base-href ${frontend.app.base.href}</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>npm-test</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>test</phase>
+						<configuration>
+							<arguments>run-script test -- --watch=false</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -671,8 +1090,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-resources-plugin</artifactId>
-			    <version>3.3.1</version>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<id>default-resources</id>
@@ -742,9 +1161,9 @@
 				</executions>
 			</plugin>
 			<plugin>
-			    <groupId>org.springframework.boot</groupId>
-			    <artifactId>spring-boot-maven-plugin</artifactId>
-			    <version>3.1.0</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
 					<skip>${skip.embedded}</skip>
 					<profiles>
@@ -753,63 +1172,52 @@
 					<mainClass>${main.class}</mainClass>
 				</configuration>
 			</plugin>
-			<plugin>            
-			  <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-war-plugin</artifactId>
-			    <version>3.3.2</version>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
 				<configuration>
-				    <failOnMissingWebXml>false</failOnMissingWebXml>
-				    <includeEmptyDirectories>false</includeEmptyDirectories>
-				    <archive>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<includeEmptyDirectories>false</includeEmptyDirectories>
+					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
-				    </archive>
+					</archive>
 				</configuration>
 			</plugin>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.4.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
 							<skip>${skip.shade}</skip>
+							<shadeTestJar>false</shadeTestJar>
 							<filters>
 								<filter>
-			                        <artifact>*:*</artifact>
-			                        <excludes>
-			                            <exclude>module-info.class</exclude>
-			                            <exclude>META-INF/**</exclude>
-			                            <exclude>license.txt</exclude>
-			                            <exclude>notice.txt</exclude>
-<!--
-			                            <exclude>org/springframework/**</exclude>
-			                            <exclude>ch/**</exclude>
-			                            <exclude>org/**</exclude>
-			                            <exclude>com/**</exclude>
-			                            <exclude>io/**</exclude>
-										<exclude>jakarta/**</exclude>
-			                            <exclude>aj/**</exclude>
-			                            <exclude>net/**</exclude>
-			                            <exclude>lombok/**</exclude>
-			                            <exclude>Class50/**</exclude>
--->
-			                        </excludes>
-			                    </filter>
-		                    </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>module-info.class</exclude>
+										<exclude>license.txt</exclude>
+										<exclude>notice.txt</exclude>
+									</excludes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.0</version><!--$NO-MVN-MAN-VER$ -->
 				<configuration>
-					<skip>true</skip>
+					<skip>${skip.test}</skip>
+					<argLine>-Dspring.profiles.active=${spring.profiles.active}</argLine>
 				</configuration>
 			</plugin>
 		</plugins>
