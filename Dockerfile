@@ -61,7 +61,7 @@ WORKDIR $WEBAPPS_BASE
 RUN unzip springbootangular.war -d springbootangular
 RUN rm springbootangular.war
 
-ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=container-prod"
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=prod"
 
 RUN echo "<meta http-equiv='refresh' content='0;url=/springbootangular'/>" > /var/lib/tomcat10/webapps/ROOT/index.html
 
