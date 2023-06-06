@@ -28,7 +28,7 @@
 				<final.name>springbootangulardev</final.name>
 				<resources.dir.env>${project.basedir}/src/main/resources-dev</resources.dir.env>
 				<main.class>org.springbootangular.app.ApplicationEmbedded</main.class>
-				<frontend.app.base.href>/${final.name}/angularappdev/</frontend.app.base.href>
+				<frontend.app.base.href>/angularapp-dev/</frontend.app.base.href>
 				<skip.back>false</skip.back>
 				<skip.front>false</skip.front>
 				<skip.dev>false</skip.dev>
