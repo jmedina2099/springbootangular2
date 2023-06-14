@@ -55,7 +55,7 @@ export class ListadoComponent {
   }
 
   save() {
-    console.log('Guardar');
+    this.loggerService.log('Guardar');
     if( this.validate() ) {
       if( this.isCreateModal ) {
         this.service.createUsuario(this.usuarioEditar)
