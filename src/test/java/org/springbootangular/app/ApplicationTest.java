@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -53,7 +54,16 @@ public class ApplicationTest {
 	@Autowired
     private TestRestTemplate restTemplate;
 	
-	private String getUrlBase() {
+	private String urlBase;
+
+	@Before
+    public void retrieveUrlBase() {
+		logger.info("====> retrieveUrlBase");
+    	urlBase = getUrlBase();
+		logger.info("====> "+ urlBase);
+    }
+	
+    private String getUrlBase() {
 		String hostAddress = "";
 		try {
 			hostAddress = InetAddress.getLocalHost().getHostAddress();
@@ -67,7 +77,7 @@ public class ApplicationTest {
 	@Test
     public void getUsers() throws Exception {
 		
-		String url = getUrlBase() + "/users";
+		String url = this.urlBase + "/users";
 
 		List<UsuarioDTO> lista = new ArrayList<UsuarioDTO>();
 		
@@ -100,7 +110,7 @@ public class ApplicationTest {
 	@Test
 	public void modifyUser() throws Exception {
 		
-		String url = getUrlBase() + "/update";
+		String url = this.urlBase + "/update";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId( 2l );
@@ -117,7 +127,7 @@ public class ApplicationTest {
 	@Test
 	public void removeUser() throws Exception {
 		
-		String url = getUrlBase() + "/delete";
+		String url = this.urlBase + "/delete";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId( 3l );
@@ -130,7 +140,7 @@ public class ApplicationTest {
 	@Test
 	public void saveUser() throws Exception {
 		
-		String url = getUrlBase() + "/create";
+		String url = this.urlBase + "/create";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setUsername( "jmedina" );
@@ -154,7 +164,7 @@ public class ApplicationTest {
 	
 	@Test
 	public void testCreate() throws Exception {
-		String url = getUrlBase() + "/delete";
+		String url = this.urlBase + "/delete";
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId( 3l );
